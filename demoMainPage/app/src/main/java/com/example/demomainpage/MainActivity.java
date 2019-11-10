@@ -1,7 +1,11 @@
 package com.example.demomainpage;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +29,8 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     List<Tours>tours;
+    Button logoutButton;
+    SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         final RecyclerView rvTours=(RecyclerView)findViewById(R.id.rv_items);
         rvTours.setLayoutManager(new LinearLayoutManager(this));
+        logoutButton=findViewById(R.id.logout_btn);
 
+        pref = getSharedPreferences(LoginActivity.PREF_NAME,MODE_PRIVATE);
+        String token=pref.getString("token","");
 
         OkHttpClient client=new OkHttpClient();
         Moshi moshi=new Moshi.Builder().build();
@@ -41,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         Request request=new Request.Builder()
                 .url("http://35.197.153.192:3000/tour/history-user?pageIndex=1&pageSize=10")
-                .header("Authorization","eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoidGhpbmg5NyIsImVtYWlsIjoibmd1eWVubWluaHRoaW5oOTdAZ21haWwuY29tIiwiZXhwIjoxNTUzODczNDU1NTY2LCJpYXQiOjE1NTEyODE0NTV9.lQ-RkLSwD3UyRXWvSRaTIsn1f_3ZRMWd-nfRutcwXFw")
+                .header("Authorization",token)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -60,6 +69,18 @@ public class MainActivity extends AppCompatActivity {
                         rvTours.setAdapter(new RecyclerDataAdapter(tours,MainActivity.this));
                     }
                 });
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor editor=pref.edit();
+                editor.clear();
+                editor.apply();
+                Intent myIntent = new Intent(MainActivity.this, LoginActivity.class);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(myIntent);
             }
         });
     }
