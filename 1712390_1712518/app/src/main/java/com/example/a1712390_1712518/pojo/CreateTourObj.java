@@ -1,63 +1,44 @@
 package com.example.a1712390_1712518.pojo;
 
-
-import java.util.List;
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CreateTourResponse {
+import java.util.List;
 
+public class CreateTourObj {
     @SerializedName("hostId")
-    @Expose
     private String hostId;
     @SerializedName("status")
-    @Expose
     private Integer status;
     @SerializedName("name")
-    @Expose
     private String name;
     @SerializedName("minCost")
-    @Expose
     private Integer minCost;
     @SerializedName("maxCost")
-    @Expose
     private Integer maxCost;
     @SerializedName("startDate")
-    @Expose
-    private Integer startDate;
+    private Long startDate;
     @SerializedName("endDate")
-    @Expose
-    private Integer endDate;
+    private Long endDate;
     @SerializedName("adults")
-    @Expose
     private Integer adults;
     @SerializedName("childs")
-    @Expose
     private Integer childs;
     @SerializedName("sourceLat")
-    @Expose
-    private Integer sourceLat;
+    private Float sourceLat;
     @SerializedName("sourceLong")
-    @Expose
-    private Integer sourceLong;
+    private Float sourceLong;
     @SerializedName("desLat")
-    @Expose
-    private Integer desLat;
+    private Float desLat;
     @SerializedName("desLong")
-    @Expose
-    private Integer desLong;
+    private Float desLong;
     @SerializedName("id")
-    @Expose
     private Integer id;
     @SerializedName("isPrivate")
-    @Expose
     private Boolean isPrivate;
     @SerializedName("avatar")
-    @Expose
     private String avatar;
     @SerializedName("message")
-    @Expose
-    private List<CreateTourMessage> message = null;
+    private List<Message> message = null;
 
     public String getHostId() {
         return hostId;
@@ -99,19 +80,19 @@ public class CreateTourResponse {
         this.maxCost = maxCost;
     }
 
-    public Integer getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Integer startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
-    public Integer getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Integer endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 
@@ -131,35 +112,35 @@ public class CreateTourResponse {
         this.childs = childs;
     }
 
-    public Integer getSourceLat() {
+    public Float getSourceLat() {
         return sourceLat;
     }
 
-    public void setSourceLat(Integer sourceLat) {
+    public void setSourceLat(Float sourceLat) {
         this.sourceLat = sourceLat;
     }
 
-    public Integer getSourceLong() {
+    public Float getSourceLong() {
         return sourceLong;
     }
 
-    public void setSourceLong(Integer sourceLong) {
+    public void setSourceLong(Float sourceLong) {
         this.sourceLong = sourceLong;
     }
 
-    public Integer getDesLat() {
+    public Float getDesLat() {
         return desLat;
     }
 
-    public void setDesLat(Integer desLat) {
+    public void setDesLat(Float desLat) {
         this.desLat = desLat;
     }
 
-    public Integer getDesLong() {
+    public Float getDesLong() {
         return desLong;
     }
 
-    public void setDesLong(Integer desLong) {
+    public void setDesLong(Float desLong) {
         this.desLong = desLong;
     }
 
@@ -187,12 +168,7 @@ public class CreateTourResponse {
         this.avatar = avatar;
     }
 
-    public List<CreateTourMessage> getMessage() {
+    public List<Message> getMessage() {
         return message;
     }
-
-    public void setMessage(List<CreateTourMessage> message) {
-        this.message = message;
-    }
-
 }

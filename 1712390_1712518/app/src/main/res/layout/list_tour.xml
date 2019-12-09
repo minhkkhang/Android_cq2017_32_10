@@ -2,37 +2,129 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/tourname"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:background="#1e90ff"
-        android:textColor="#ffffff"
-        android:textSize="40dp" />
-    <TextView
-        android:id="@+id/id"
-        android:layout_toRightOf="@+id/tourname"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
-        android:background="#1e90ff"
-        android:textColor="#ffffff"
-        android:textSize="30dp" />
-    <TextView
-        android:id="@+id/startDate"
-        android:layout_below="@+id/tourname"
-        android:layout_width="210dp"
-        android:layout_height="50dp"
+    android:orientation="vertical"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:background="#fcc133">
+    <ImageView
+        android:id="@+id/tour_avatar"
+        android:layout_width="320dp"
+        android:layout_height="200dp"
+        android:maxWidth="320dp"
+        android:maxHeight="200dp"
+        android:layout_centerHorizontal="true"
         android:background="#ffffff"
-        android:textColor="#000000"
-        android:textSize="30dp" />
+        android:layout_marginTop="5dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/app_name"/>
     <TextView
-        android:id="@+id/endDate"
-        android:layout_toRightOf="@+id/startDate"
-        android:layout_below="@+id/tourname"
-        android:layout_width="210dp"
-        android:layout_height="50dp"
-        android:background="#ffffff"
-        android:textColor="#000000"
-        android:textSize="30dp" />
+        android:id="@+id/tour_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ff2200"
+        android:textAllCaps="true"
+        android:textSize="30sp"
+        android:layout_below="@id/tour_avatar"
+        android:layout_centerHorizontal="true"
+        />
+
+    <LinearLayout
+        android:gravity="left"
+        android:id="@+id/tour_times"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tour_name"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tour_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ff0000"
+            android:textSize="20sp"
+            android:layout_marginLeft="15dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+                <TextView
+                    android:id="@+id/tour_Date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:textSize="17sp"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/tour_extra"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tour_times"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cost: "
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:layout_marginLeft="15dp"/>
+            <TextView
+                android:id="@+id/tour_Cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ff0000"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Adult: "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/tour_adult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:layout_marginRight="15dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Children: "
+                android:textColor="#000000"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/tour_children"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                android:layout_marginRight="15dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>

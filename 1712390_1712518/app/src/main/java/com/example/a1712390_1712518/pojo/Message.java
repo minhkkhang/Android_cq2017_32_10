@@ -1,11 +1,8 @@
 package com.example.a1712390_1712518.pojo;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class SignupMessage {
+public class Message {
 
     @SerializedName("location")
     private String location;

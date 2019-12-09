@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapsActivity"
+    android:orientation="vertical"
+    android:weightSum="1">
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/map_searchbar"
+        android:background="#0f2557"
+        android:layout_alignParentTop="true"
+        android:weightSum="10"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp">
+        <AutoCompleteTextView
+            android:id="@+id/map_hintautocomplete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_weight="8"
+            android:hint="Search Location.."
+            android:inputType="textAutoComplete|textAutoCorrect"
+            android:background="#fcc133"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/map_searchsubmitbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Search"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/map_submit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="Done"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        android:padding="20dp"
+        android:background="#fcc133"/>
+
+
+
+</RelativeLayout>

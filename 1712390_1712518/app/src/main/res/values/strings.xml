@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">1712390_1712518</string>
+    <string name="map_api_key">AIzaSyDspXApagMNvHUfjoFkIbjy_en-iHb-RP8</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

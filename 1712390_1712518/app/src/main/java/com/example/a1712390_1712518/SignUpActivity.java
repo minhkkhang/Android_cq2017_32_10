@@ -15,9 +15,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.a1712390_1712518.pojo.Message;
 import com.example.a1712390_1712518.pojo.SignUpRequest;
 import com.example.a1712390_1712518.pojo.SignUpResponse;
-import com.example.a1712390_1712518.pojo.SignupMessage;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
@@ -118,7 +118,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     SignUpResponse message=
                             gson.fromJson(response.errorBody().charStream(), SignUpResponse.class);
-                    List<SignupMessage> error=message.getMessage();
+                    List<Message> error=message.getMessage();
                     StringBuilder errorMsg = new StringBuilder();
                     errorMsg.append("Errors:");
                     errorMsg.append(System.getProperty("line.separator"));

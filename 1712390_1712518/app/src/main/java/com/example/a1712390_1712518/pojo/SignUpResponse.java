@@ -28,7 +28,7 @@ public class SignUpResponse {
     @SerializedName("phone_verified")
     private Boolean phoneVerified;
     @SerializedName("message")
-    private List<SignupMessage> message = null;
+    private List<Message> message = null;
 
     public Integer getId() {
         return id;
@@ -110,11 +110,11 @@ public class SignUpResponse {
         this.phoneVerified = phoneVerified;
     }
 
-    public List<SignupMessage> getMessage() {
+    public List<Message> getMessage() {
         return message;
     }
 
-    public void setMessage(List<SignupMessage> message) {
+    public void setMessage(List<Message> message) {
         this.message = message;
     }
 

@@ -6,11 +6,17 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
     android:paddingTop="10dp"
+    android:background="#0f2557"
     tools:context="com.example.a1712390_1712518.LoginActivity">
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/login_form"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_launcher_background"
+        android:contentDescription="@string/app_name"
+        android:layout_marginBottom="20dp"/>
     <ProgressBar
         android:id="@+id/login_progressBar"
         style="?android:attr/progressBarStyleLarge"
@@ -25,7 +31,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:background="#fcc133">
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
@@ -33,7 +40,9 @@
             android:hint="Email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
 
         <EditText
             android:id="@+id/password"
@@ -45,24 +54,47 @@
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:singleLine="true" />
-
-        <Button
-        android:id="@+id/sign_in_button"
-        style="?android:textAppearanceSmall"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="SIGN IN"
-        android:textStyle="bold" />
-        <Button
-            android:id="@+id/sign_up_button"
-            style="?android:textAppearanceSmall"
+            android:singleLine="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"/>
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="SIGN UP"
-            android:textStyle="bold" />
+            android:layout_marginBottom="5dp">
+            <CheckBox
+                android:id="@+id/login_rememberMeBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember me"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                />
+            <Button
+                android:id="@+id/sign_in_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SIGN IN"
+                android:textStyle="bold"
+                android:layout_toLeftOf="@id/sign_up_button"
+                android:layout_below="@id/login_rememberMeBtn"
+                />
+            <Button
+                android:id="@+id/sign_up_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:text="SIGN UP"
+                android:textStyle="bold"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/login_rememberMeBtn"
+                />
+
+        </RelativeLayout>
+
+
 
     </LinearLayout>
 </RelativeLayout>

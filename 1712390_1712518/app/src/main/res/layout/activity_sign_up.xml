@@ -5,12 +5,16 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="10dp"
+    android:background="#0f2557"
     tools:context="com.example.a1712390_1712518.LoginActivity">
-
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sign_up_form"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_launcher_background"
+        android:contentDescription="@string/app_name"
+        android:layout_marginBottom="20dp"/>
     <ProgressBar
         android:id="@+id/signup_progressBar"
         style="?android:attr/progressBarStyleLarge"
@@ -25,7 +29,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical"
-        android:layout_centerVertical="true">
+        android:layout_centerVertical="true"
+        android:background="#fcc133"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp">
         <EditText
             android:id="@+id/signup_fullname"
             android:layout_width="match_parent"

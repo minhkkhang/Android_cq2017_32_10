@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.example.a1712390_1712518.pojo.LoginRequest;
@@ -32,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     ProgressBar spinner;
+    CheckBox remembermeBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +73,11 @@ public class LoginActivity extends AppCompatActivity {
         SignUpButton=findViewById(R.id.sign_up_button);
         editor=sharedPreferences.edit();
         spinner=findViewById(R.id.login_progressBar);
+        remembermeBtn=findViewById(R.id.login_rememberMeBtn);
+
+        remembermeBtn.setChecked(sharedPreferences.getBoolean("rememberMe",false));
+        emailPhoneInput.setText(sharedPreferences.getString("emailPhone",""));
+        passwordInput.setText(sharedPreferences.getString("password",""));
     }
     void StartMainActivity(){
         Intent myIntent = new Intent(LoginActivity.this, FrontPage.class);
@@ -88,6 +96,17 @@ public class LoginActivity extends AppCompatActivity {
                                    @NonNull Response<LoginResponse> response) {
                 spinner.setVisibility(View.GONE);
                 if(response.isSuccessful()){
+                    if(remembermeBtn.isChecked()){
+                        editor.putString("emailPhone",emailPhoneInput.getText().toString());
+                        editor.putString("password",passwordInput.getText().toString());
+                        editor.putBoolean("rememberMe",true);
+                    }
+                    else{
+                        editor.putString("emailPhone","");
+                        editor.putString("password","");
+                        editor.putBoolean("rememberMe",false);
+                    }
+                    editor.commit();
                     String token;
                     Integer ID;
                     try{
