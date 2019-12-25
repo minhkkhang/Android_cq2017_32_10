@@ -8,9 +8,9 @@ public class StopPointObj {
     @SerializedName("name")
     private String name;
     @SerializedName("lat")
-    private Float lat;
+    private Double lat;
     @SerializedName("long")
-    private Float _long;
+    private Double _long;
     @SerializedName("arrivalAt")
     private Long arrivalAt;
     @SerializedName("leaveAt")
@@ -23,6 +23,8 @@ public class StopPointObj {
     private Integer serviceTypeId;
     @SerializedName("id")
     private Integer id;
+    @SerializedName("serviceId")
+    private Integer serviceId;
     @SerializedName("avatar")
     private String avatar;
     @SerializedName("index")
@@ -35,6 +37,8 @@ public class StopPointObj {
     private String contact;
     @SerializedName("selfStarRatings")
     private Integer selfStarRatings;
+    @SerializedName("provinceId")
+    private Integer provinceId;
 
     public Integer getTourId() {
         return tourId;
@@ -52,19 +56,19 @@ public class StopPointObj {
         this.name = name;
     }
 
-    public Float getLat() {
+    public Double getLat() {
         return lat;
     }
 
-    public void setLat(Float lat) {
+    public void setLat(Double lat) {
         this.lat = lat;
     }
 
-    public Float getLong() {
+    public Double getLong() {
         return _long;
     }
 
-    public void setLong(Float _long) {
+    public void setLong(Double _long) {
         this._long = _long;
     }
 
@@ -116,12 +120,27 @@ public class StopPointObj {
         this.id = id;
     }
 
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer id) {
+        this.serviceId = id;
+    }
+
     public String getAvatar() {
         return avatar;
     }
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+    public Integer getProvinceId() {
+        return provinceId;
+    }
+
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
     }
 
     public Integer getIndex() {

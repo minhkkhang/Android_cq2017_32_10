@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -55,7 +56,15 @@ public class FrontPage extends AppCompatActivity {
         adapter=new ListTourAdapter(this,list);
         rvTours.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
+        rvTours.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent=new Intent(FrontPage.this,MapsActivity.class);
+                intent.putExtra("tourId",adapter.getTourId(position));
+                intent.putExtra("action","View");
+                startActivity(intent);
+            }
+        });
 
     }
 

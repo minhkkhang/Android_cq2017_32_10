@@ -38,7 +38,9 @@ public class ListTourAdapter extends BaseAdapter  {
         this.listData = listData;
         layoutInflater = LayoutInflater.from(aContext);
     }
-
+    public int getTourId(int position){
+        return listData.get(position).getId();
+    }
     @Override
     public int getCount() {
         return listData.size();

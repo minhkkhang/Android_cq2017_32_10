@@ -2,6 +2,8 @@ package com.example.a1712390_1712518.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Tour {
     @SerializedName("id")
     private Integer id;
@@ -31,6 +33,8 @@ public class Tour {
     private String hostId;
     @SerializedName("stopPoints")
     private List<StopPointViewObject> stopPoints = null;
+    @SerializedName("comments")
+    private List<TourComment> comments = null;
 
     public Integer getId() {
         return id;
@@ -142,6 +146,13 @@ public class Tour {
 
     public void setStopPoints(List<StopPointViewObject> stopPoints) {
         this.stopPoints = stopPoints;
+    }
+    public List<TourComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<TourComment> comments) {
+        this.comments = comments;
     }
 
 }

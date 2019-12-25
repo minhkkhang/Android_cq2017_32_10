@@ -145,7 +145,8 @@ public class CreateTourActivity extends AppCompatActivity {
         CreateTour_SubmitBtn=findViewById(R.id.CreateTour_ContinueBtn);
         sharedPreferences=getApplicationContext().getSharedPreferences(LoginActivity.PREF_NAME, MODE_PRIVATE);
         editor=sharedPreferences.edit();
-
+        editor.remove("startDate");
+        editor.remove("endDate");
         editor.remove("sourceLat");
         editor.remove("sourceLong");
         editor.remove("sourceExisted");
@@ -153,6 +154,8 @@ public class CreateTourActivity extends AppCompatActivity {
         editor.remove("desLat");
         editor.remove("desLong");
         editor.remove("desExisted");
+        editor.remove("sourceAddress");
+        editor.remove("desAddress");
         editor.apply();
     }
     private void CreateTourRequest(){
@@ -172,7 +175,10 @@ public class CreateTourActivity extends AppCompatActivity {
             return;
         }
         createTourObj.setStartDate(StartDate.getTime());
+        editor.putLong("startDate",StartDate.getTime());
         createTourObj.setEndDate(EndDate.getTime());
+        editor.putLong("endDate",EndDate.getTime());
+        editor.apply();
 
         createTourObj.setAdults(Integer.parseInt(CreateTour_Adult.getText().toString()));
         createTourObj.setChilds(Integer.parseInt(CreateTour_Children.getText().toString()));
@@ -189,16 +195,9 @@ public class CreateTourActivity extends AppCompatActivity {
         }
         createTourObj.setSourceLat(sharedPreferences.getFloat("sourceLat",0));
         createTourObj.setSourceLong(sharedPreferences.getFloat("sourceLong",0));
-        editor.remove("sourceLat");
-        editor.remove("sourceLong");
-        editor.remove("sourceExisted");
 
         createTourObj.setDesLat(sharedPreferences.getFloat("desLat",0));
         createTourObj.setDesLong(sharedPreferences.getFloat("desLong",0));
-        editor.remove("desLat");
-        editor.remove("desLong");
-        editor.remove("desExisted");
-        editor.apply();
 
         Call<CreateTourObj> call=userService.CreateTour(token,createTourObj);
         call.enqueue(new Callback<CreateTourObj>() {
@@ -209,7 +208,7 @@ public class CreateTourActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                     Intent myIntent = new Intent(CreateTourActivity.this, MapsActivity.class);
                     myIntent.putExtra("action","StopPoint");
-                    myIntent.putExtra("tourID",response.body().getId());
+                    myIntent.putExtra("tourId",response.body().getId());
                     myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(myIntent);
                 }

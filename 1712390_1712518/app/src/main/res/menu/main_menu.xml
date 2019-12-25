@@ -9,7 +9,7 @@
         android:icon="@mipmap/ic_launcher"/>
     <item
         android:id="@+id/currentPage"
-        android:title="1"
+        android:title="@string/num_example"
         app:showAsAction="always"/>
     <item
         app:showAsAction="always"
@@ -17,11 +17,11 @@
         android:title=""
         android:icon="@mipmap/ic_launcher"/>
     <item android:id="@+id/createTour"
-        android:title="Create New Tour"/>
+        android:title="@string/create_tour"/>
     <item android:id="@+id/userProfile"
-        android:title="User Profile"
+        android:title="@string/profile"
         android:icon="@mipmap/ic_launcher"/>
     <item android:id="@+id/userLogOut"
-        android:title="Log Out"/>
+        android:title="@string/logout"/>
 
 </menu>

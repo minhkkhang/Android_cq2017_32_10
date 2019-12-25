@@ -6,6 +6,8 @@ public class StopPointViewObject {
 
     @SerializedName("id")
     private Integer id;
+    @SerializedName("serviceId")
+    private Integer serviceId;
     @SerializedName("name")
     private String name;
     @SerializedName("lat")
@@ -39,6 +41,8 @@ public class StopPointViewObject {
     private Integer provinceId;
     @SerializedName("landingTimesOfUser")
     private String landingTimesOfUser;
+    @SerializedName("selfStarRatings")
+    private Integer selfStarRatings;
 
     public Integer getId() {
         return id;
@@ -46,6 +50,13 @@ public class StopPointViewObject {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer id) {
+        this.serviceId = id;
     }
 
     public String getName() {
@@ -173,6 +184,13 @@ public class StopPointViewObject {
 
     public void setLandingTimesOfUser(String landingTimesOfUser) {
         this.landingTimesOfUser = landingTimesOfUser;
+    }
+    public Integer getSelfStarRatings() {
+        return selfStarRatings;
+    }
+
+    public void setSelfStarRatings(Integer selfStarRatings) {
+        this.selfStarRatings = selfStarRatings;
     }
 
 }

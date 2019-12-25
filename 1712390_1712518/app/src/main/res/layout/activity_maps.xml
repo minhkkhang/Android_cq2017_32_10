@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_weight="8"
-            android:hint="Search Location.."
+            android:hint="@string/location"
             android:inputType="textAutoComplete|textAutoCorrect"
             android:background="#fcc133"
             android:maxLines="1"
@@ -41,7 +41,7 @@
             android:id="@+id/map_searchsubmitbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
+            android:text="@string/search"
             android:layout_weight="1"
             android:layout_marginRight="10dp"/>
     </LinearLayout>
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:text="Done"
+        android:text="@string/done"
         android:layout_marginRight="30dp"
         android:layout_marginBottom="20dp"
         android:padding="20dp"

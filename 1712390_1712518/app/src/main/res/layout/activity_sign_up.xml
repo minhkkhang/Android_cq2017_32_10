@@ -33,11 +33,21 @@
         android:background="#fcc133"
         android:paddingRight="15dp"
         android:paddingLeft="15dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textColor="#f00"
+            android:text="@string/sign_up"/>
         <EditText
             android:id="@+id/signup_fullname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Full Name"
+            android:hint="@string/Name"
             android:inputType="textPersonName"
             android:maxLines="1"
             android:singleLine="true" />
@@ -45,7 +55,7 @@
             android:id="@+id/signup_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:singleLine="true" />
@@ -53,7 +63,7 @@
             android:id="@+id/signup_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Phone Number"
+            android:hint="@string/phone"
             android:inputType="phone"
             android:maxLines="1"
             android:singleLine="true" />
@@ -61,7 +71,7 @@
             android:id="@+id/signup_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Address"
+            android:hint="@string/address"
             android:inputType="textPostalAddress" />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -70,14 +80,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date of birth:"
+                android:text="@string/dob"
                 android:textSize="16sp"
                 android:layout_marginLeft="5dp"/>
             <EditText
                 android:id="@+id/signup_yearofbirth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="yyyy"
+                android:hint="@string/yyyy"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -90,7 +100,7 @@
                 android:id="@+id/signup_monthofbirth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="mm"
+                android:hint="@string/MM"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -103,7 +113,7 @@
                 android:id="@+id/signup_dayofbirth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="dd"
+                android:hint="@string/dd"
                 android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -113,7 +123,7 @@
             android:id="@+id/signup_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="@string/password"
             android:imeActionId="6"
             android:imeActionLabel=".."
             android:imeOptions="actionUnspecified"
@@ -130,13 +140,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/signup_male"
-                android:text="Male"
+                android:text="@string/male"
                 android:checked="true"/>
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/signup_female"
-                android:text="Female"/>
+                android:text="@string/female"/>
 
         </RadioGroup>
 
@@ -146,7 +156,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="SIGN UP"
+            android:text="@string/sign_up"
             android:textStyle="bold" />
 
     </LinearLayout>

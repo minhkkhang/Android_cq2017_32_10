@@ -10,6 +10,8 @@ public class Message {
     private String param;
     @SerializedName("msg")
     private String msg;
+    @SerializedName("message")
+    private String message;
     @SerializedName("value")
     private String value;
 
@@ -27,6 +29,14 @@ public class Message {
 
     public void setParam(String param) {
         this.param = param;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String msg) {
+        this.message = msg;
     }
 
     public String getMsg() {
