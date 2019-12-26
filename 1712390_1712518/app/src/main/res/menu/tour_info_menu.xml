@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/view"
+        android:title="@string/view_tour"
+        app:showAsAction="always"/>
+    <item android:id="@+id/members"
+        android:title="@string/member_list"/>
+    <item android:id="@+id/invite"
+        android:title="@string/invite"/>
+    <item android:id="@+id/edittour"
+        android:title="@string/edit_tour"
+        />
+    <item android:id="@+id/removetour"
+        android:title="@string/delete_tour"/>
+
+</menu>

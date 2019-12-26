@@ -8,13 +8,13 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
     android:background="#0f2557"
-    tools:context="com.example.a1712390_1712518.LoginActivity">
+    tools:context="com.ygaps.travelapp.LoginActivity">
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_above="@+id/login_form"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/man"
         android:contentDescription="@string/app_name"
         android:layout_marginBottom="20dp"/>
     <ProgressBar

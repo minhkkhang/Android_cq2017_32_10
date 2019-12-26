@@ -1,163 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:background="#0f2557"
-    tools:context="com.example.a1712390_1712518.LoginActivity">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/sign_up_form"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_launcher_background"
-        android:contentDescription="@string/app_name"
-        android:layout_marginBottom="20dp"/>
-    <ProgressBar
-        android:id="@+id/signup_progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@id/sign_up_form"/>
-
+    android:scrollbars="vertical"
+    tools:context="com.ygaps.travelapp.LoginActivity">
     <LinearLayout
-        android:id="@+id/sign_up_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_centerVertical="true"
-        android:background="#fcc133"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textSize="18sp"
-            android:textColor="#f00"
-            android:text="@string/sign_up"/>
-        <EditText
-            android:id="@+id/signup_fullname"
-            android:layout_width="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/Name"
-            android:inputType="textPersonName"
-            android:maxLines="1"
-            android:singleLine="true" />
-        <EditText
-            android:id="@+id/signup_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:maxLines="1"
-            android:singleLine="true" />
-        <EditText
-            android:id="@+id/signup_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/phone"
-            android:inputType="phone"
-            android:maxLines="1"
-            android:singleLine="true" />
-        <EditText
-            android:id="@+id/signup_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/address"
-            android:inputType="textPostalAddress" />
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="15dp">
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/man"
+                android:contentDescription="@string/app_name"
+                android:layout_marginBottom="20dp"
+                android:layout_centerInParent="true"/>
+            <ProgressBar
+                android:id="@+id/signup_progressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/sign_up_form"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:background="#fcc133"
+            android:paddingRight="15dp"
+            android:paddingLeft="15dp">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/dob"
-                android:textSize="16sp"
-                android:layout_marginLeft="5dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:textColor="#f00"
+                android:text="@string/sign_up"/>
             <EditText
-                android:id="@+id/signup_yearofbirth"
+                android:id="@+id/signup_fullname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/yyyy"
-                android:inputType="numberDecimal"
+                android:hint="@string/Name"
+                android:inputType="textPersonName"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:maxLength="4"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" - "/>
+                android:singleLine="true" />
             <EditText
-                android:id="@+id/signup_monthofbirth"
+                android:id="@+id/signup_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/MM"
-                android:inputType="numberDecimal"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:maxLength="2"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" - "/>
+                android:singleLine="true" />
             <EditText
-                android:id="@+id/signup_dayofbirth"
+                android:id="@+id/signup_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/dd"
-                android:inputType="numberDecimal"
+                android:hint="@string/phone"
+                android:inputType="phone"
                 android:maxLines="1"
-                android:singleLine="true"
-                android:maxLength="2"/>
+                android:singleLine="true" />
+            <EditText
+                android:id="@+id/signup_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/address"
+                android:inputType="textPostalAddress" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dob"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="5dp"/>
+                <EditText
+                    android:id="@+id/signup_yearofbirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/yyyy"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:maxLength="4"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - "/>
+                <EditText
+                    android:id="@+id/signup_monthofbirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/MM"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:maxLength="2"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" - "/>
+                <EditText
+                    android:id="@+id/signup_dayofbirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/dd"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:maxLength="2"/>
+            </LinearLayout>
+            <EditText
+                android:id="@+id/signup_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:imeActionId="6"
+                android:imeActionLabel=".."
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true" />
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/signup_gendergroup"
+                android:layout_gravity="right">
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/signup_male"
+                    android:text="@string/male"
+                    android:checked="true"/>
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/signup_female"
+                    android:text="@string/female"/>
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/sign_up_confirm_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/sign_up"
+                android:textStyle="bold" />
+
         </LinearLayout>
-        <EditText
-            android:id="@+id/signup_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/password"
-            android:imeActionId="6"
-            android:imeActionLabel=".."
-            android:imeOptions="actionUnspecified"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:singleLine="true" />
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/signup_gendergroup"
-            android:layout_gravity="right">
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/signup_male"
-                android:text="@string/male"
-                android:checked="true"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/signup_female"
-                android:text="@string/female"/>
-
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/sign_up_confirm_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/sign_up"
-            android:textStyle="bold" />
-
     </LinearLayout>
-</RelativeLayout>
+
+</ScrollView>

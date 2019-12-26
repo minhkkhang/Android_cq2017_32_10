@@ -2,25 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <item
-        app:showAsAction="always"
-        android:id="@+id/previousPage"
+    <item android:id="@+id/search_btn"
+        android:icon="@drawable/search"
         android:title=""
-        android:icon="@mipmap/ic_launcher"/>
-    <item
-        android:id="@+id/currentPage"
-        android:title="@string/num_example"
         app:showAsAction="always"/>
-    <item
-        app:showAsAction="always"
-        android:id="@+id/nextPage"
-        android:title=""
-        android:icon="@mipmap/ic_launcher"/>
     <item android:id="@+id/createTour"
         android:title="@string/create_tour"/>
     <item android:id="@+id/userProfile"
         android:title="@string/profile"
         android:icon="@mipmap/ic_launcher"/>
+    <item android:id="@+id/viewStopPoint"
+        android:title="@string/view_stop_point"/>
     <item android:id="@+id/userLogOut"
         android:title="@string/logout"/>
 
