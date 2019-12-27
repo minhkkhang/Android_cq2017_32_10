@@ -28,7 +28,7 @@ public class EditStopPointActivity extends AppCompatActivity {
     Intent intent;
     SimpleDateFormat df;
     int index;
-    Float lat,_long;
+    Double lat,_long;
     Menu mMenu;
 
     @Override
@@ -42,10 +42,10 @@ public class EditStopPointActivity extends AppCompatActivity {
         if (bundle != null) {
             nameTxt.setText(bundle.getString("name",""));
             addressTxt.setText(bundle.getString("address",""));
-            Integer mincost=bundle.getInt("minCost",0);
-            Integer maxcost=bundle.getInt("maxCost",0);
-            minCostTxt.setText(mincost.toString());
-            maxCostTxt.setText(maxcost.toString());
+            Integer mincost=bundle.getInt("minCost",-1);
+            Integer maxcost=bundle.getInt("maxCost",-1);
+            if(mincost>-1)minCostTxt.setText(mincost.toString());
+            if(maxcost>-1)maxCostTxt.setText(maxcost.toString());
             String date;
             Calendar calendar=Calendar.getInstance();
             try{
@@ -80,8 +80,8 @@ public class EditStopPointActivity extends AppCompatActivity {
                 }
             }
             index=bundle.getInt("index",-1);
-            lat=bundle.getFloat("lat",0);
-            _long=bundle.getFloat("long",0);
+            lat=bundle.getDouble("lat",0);
+            _long=bundle.getDouble("long",0);
         }
 
     }
@@ -183,8 +183,17 @@ public class EditStopPointActivity extends AppCompatActivity {
                 intent.putExtra("name",nameTxt.getText().toString());
                 intent.putExtra("startDate",startdate);
                 intent.putExtra("endDate",enddate);
-                intent.putExtra("minCost",minCostTxt.getText().toString());
-                intent.putExtra("maxCost",maxCostTxt.getText().toString());
+                Integer minCost,maxCost;
+                try{
+                    minCost=Integer.parseInt(minCostTxt.getText().toString());
+                }
+                catch (Exception e){minCost=-1;}
+                try{
+                    maxCost=Integer.parseInt(maxCostTxt.getText().toString());
+                }
+                catch (Exception e){maxCost=-1;}
+                intent.putExtra("minCost",minCost);
+                intent.putExtra("maxCost",maxCost);
                 intent.putExtra("address",addressTxt.getText().toString());
                 intent.putExtra("province",1);
                 intent.putExtra("lat",lat);

@@ -19,6 +19,7 @@
             android:orientation="vertical"
             android:background="#fcc133">
             <TextView
+                android:id="@+id/createTour_Title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="10dp"
@@ -67,43 +68,50 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:layout_width="wrap_content"
+                android:id="@+id/CreateTour_pickPoint"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:text="@string/pick_source"
-                    android:id="@+id/CreateTour_StartPoint"
-                    android:layout_marginTop="8dp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/pick_source"
+                        android:id="@+id/CreateTour_StartPoint"
+                        android:layout_marginTop="8dp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/CreateTour_StartPointDetail"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="15dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/CreateTour_StartPointDetail"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"/>
+                    android:orientation="horizontal">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:ems="10"
+                        android:text="@string/pick_destination"
+                        android:id="@+id/CreateTour_EndPoint"
+                        android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/CreateTour_EndPointDetail"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="15dp"/>
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:ems="10"
-                    android:text="@string/pick_destination"
-                    android:id="@+id/CreateTour_EndPoint"
-                    android:layout_marginTop="5dp"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/CreateTour_EndPointDetail"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"/>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -121,7 +129,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:id="@+id/CreateTour_Adult"
-                    android:text="@string/num_example"
                     android:hint="@string/amount"
                     android:gravity="end"
                     android:textAlignment="textEnd"/>
@@ -136,7 +143,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:id="@+id/CreateTour_Children"
-                    android:text="@string/num_example"
                     android:hint="@string/amount"
                     android:gravity="end"
                     android:textAlignment="textEnd"
@@ -158,7 +164,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:id="@+id/CreateTour_MinCost"
-                    android:text="@string/num_example"
                     android:gravity="end"
                     android:textAlignment="textEnd"
                     android:hint="Min Cost"/>
@@ -179,7 +184,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:id="@+id/CreateTour_MaxCost"
-                    android:text="@string/num_example"
                     android:gravity="end"
                     android:textAlignment="textEnd"
                     android:hint="Max Cost"/>

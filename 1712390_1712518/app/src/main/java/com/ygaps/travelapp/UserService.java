@@ -56,6 +56,11 @@ public interface UserService {
     @POST("tour/add/review")
     Call<Message> sendTourReview(@Header("Authorization")String token,
                                  @Body ReviewRequest request);
+    @GET("tour/comment-list")
+    Call<ListReviewRequest> getTourComments(@Header("Authorization")String token,
+                                            @Query("tourId") Integer id,
+                                            @Query("pageIndex")Integer page,
+                                            @Query("pageSize")Integer pageSize);
     @POST("tour/comment")
     Call<Message> sendTourComment(@Header("Authorization")String token,
                                   @Body ReviewRequest request);
@@ -75,5 +80,10 @@ public interface UserService {
     @POST("user/notification/put-token")
     Call<Message> registerFirebaseToken(@Header("Authorization")String token,
                                         @Body FireBaseTokenRequest request);
-
+    @POST("tour/clone")
+    Call<Tour> cloneTour(@Header("Authorization")String token,
+                         @Body ReviewRequest request);
+    @POST("tour/update-tour")
+    Call<CreateTourObj> updateTour(@Header("Authorization")String token,
+                          @Body CreateTourObj tour);
 }

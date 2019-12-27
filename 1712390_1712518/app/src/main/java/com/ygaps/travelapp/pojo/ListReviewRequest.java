@@ -11,6 +11,8 @@ public class ListReviewRequest {
     private List<TourComment> feedbacks = null;
     @SerializedName("reviewList")
     private List<TourComment> reviews = null;
+    @SerializedName("commentList")
+    private List<TourComment> comments = null;
 
     public Integer getTotal() {
         return total;
@@ -36,4 +38,11 @@ public class ListReviewRequest {
         this.reviews = reviews;
     }
 
+    public List<TourComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<TourComment> comments) {
+        this.comments = comments;
+    }
 }

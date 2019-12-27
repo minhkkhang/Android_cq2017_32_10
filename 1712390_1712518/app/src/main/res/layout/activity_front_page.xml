@@ -3,6 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0f2557">
+    <ListView
+        android:id="@+id/rv_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:dividerHeight="25dp"
+        android:divider="#0f2557"
+        android:background="#0f2557"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,38 +36,22 @@
             android:layout_height="wrap_content"
             android:layout_weight="7.5"
             android:orientation="horizontal"
-            android:background="#fcc133"
+            android:background="#fff"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:visibility="visible"
             android:layout_marginBottom="10dp">
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/search"
-                android:id="@+id/frontpage_searchTxt"/>
+                android:id="@+id/frontpage_searchTxt"
+                />
         </LinearLayout>
-
-
-
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_weight="0.5"/>
     </LinearLayout>
-    <ListView
-        android:id="@+id/rv_items"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
-        android:dividerHeight="25dp"
-        android:divider="#0f2557"
-        android:background="#0f2557"
-        android:layout_below="@id/frontpage_searchLayout"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="5dp"/>
     <ProgressBar
         android:id="@+id/frontpage_progressBar"
         style="?android:attr/progressBarStyleLarge"

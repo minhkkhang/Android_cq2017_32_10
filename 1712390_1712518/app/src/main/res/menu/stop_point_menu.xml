@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/stop_point_done"
-        android:title="@string/done"
+        android:title="@string/back"
         app:showAsAction="always"/>
     <item android:id="@+id/stop_point_delete"
         android:title="@string/delete_service"/>

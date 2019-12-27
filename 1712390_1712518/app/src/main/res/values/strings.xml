@@ -33,6 +33,7 @@
     <string name="included">included</string>
     <string name="add">Add</string>
     <string name="remove">Remove</string>
+    <string name="update">Update</string>
     <string name="review">Review</string>
     <string name="email">Email</string>
     <string name="dob">Date of birth: </string>
@@ -61,4 +62,9 @@
     <string name="comment">Comment</string>
     <string name="view_tour">View on map</string>
     <string name="delete_service">Delete stop point</string>
+    <string name="public_tour">Public tour</string>
+    <string name="clone_tour">Clone Tour</string>
+    <string name="hide">Hide</string>
+    <string name="show">Show</string>
+    <string name="back">Back</string>
 </resources>

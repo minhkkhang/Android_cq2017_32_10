@@ -109,6 +109,12 @@
                     android:layout_weight="4.5"
                     android:id="@+id/tourinfo_children"/>
             </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tourinfo_isPrivate"
+                android:textColor="#f00"
+                android:padding="5dp"/>
             <View
             android:layout_width="match_parent"
             android:layout_height="10dp"

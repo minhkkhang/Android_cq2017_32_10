@@ -9,6 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ygaps.travelapp.pojo.Tour;
 import com.squareup.picasso.Picasso;
@@ -18,16 +19,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class ListTourAdapter extends BaseAdapter  implements Filterable {
-    private List<Tour> listData;
-    private List<Tour> originData;
+public class ListTourAdapter extends BaseAdapter {
+    private ArrayList<Tour> listData;
+    private ArrayList<Tour> originData;
     private LayoutInflater layoutInflater;
     private Context context;
 
     public ListTourAdapter(Context aContext,  ArrayList<Tour> listData) {
         this.context = aContext;
         this.listData = listData;
-        this.originData=listData;
+        this.originData=new ArrayList<>();
+        originData.addAll(listData);
         layoutInflater = LayoutInflater.from(aContext);
     }
     public int getTourId(int position){
@@ -127,43 +129,24 @@ public class ListTourAdapter extends BaseAdapter  implements Filterable {
 
         return convertView;
     }
-
-    @Override
-    public Filter getFilter() {
-        Filter filter=new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults results=new FilterResults();
-                List<Tour> FilteredList=new ArrayList<>();
-                if(constraint==null || constraint.toString().compareTo("")==0){
-                    results.count=originData.size();
-                    results.values=originData;
-                    listData=originData;
-                    notifyDataSetChanged();
-                    return results;
-                }
-                constraint=constraint.toString().toLowerCase();
-                for(int i=0;i<originData.size();i++){
-                    Tour temp=originData.get(i);
-                    if(temp.getName().toLowerCase().contains(constraint))
-                        FilteredList.add(temp);
-                }
-                results.count=FilteredList.size();
-                results.values=FilteredList;
-                listData=FilteredList;
-                notifyDataSetChanged();
-                return results;
+    public void Filter(CharSequence constraint){
+        ArrayList<Tour> FilteredList=new ArrayList<>();
+        if(constraint==null || constraint.toString().compareTo("")==0){
+            listData=originData;
+            notifyDataSetChanged();
+            return;
+        }
+        CharSequence cons=constraint.toString().toLowerCase();
+        for(int i=0;i<originData.size();i++){
+            Tour temp=originData.get(i);
+            if(temp.getName()!=null){
+                if(temp.getName().toLowerCase().contains(cons))
+                    FilteredList.add(temp);
             }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                if(results.count==0)
-                    notifyDataSetInvalidated();
-            }
-        };
-        return filter;
+        }
+        listData=FilteredList;
+        notifyDataSetChanged();
     }
-
     static class ViewHolder {
         ImageView tourAvatarView;
         TextView tourNameView;
@@ -173,5 +156,8 @@ public class ListTourAdapter extends BaseAdapter  implements Filterable {
         TextView tourAdultView;
         TextView tourChildrenView;
     }
-
+    public void addItems(List<Tour> tours){
+        originData.clear();
+        originData.addAll(tours);
+    }
 }

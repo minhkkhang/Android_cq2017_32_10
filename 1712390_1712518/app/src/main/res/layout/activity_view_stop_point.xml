@@ -56,6 +56,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/stoppoint_viewDate"
+                android:padding="5dp"
+                android:textAlignment="center"
+                android:textSize="15sp"
+                android:visibility="gone"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/stoppoint_address"
                 android:padding="5dp"/>
             <TextView
@@ -89,7 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/stoppoint_serviceType"
-                android:padding="5dp"/>
+                android:padding="5dp"
+                android:textColor="#f00"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="10dp"

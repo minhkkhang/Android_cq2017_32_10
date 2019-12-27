@@ -13,12 +13,14 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ygaps.travelapp.pojo.CreateTourObj;
 import com.ygaps.travelapp.pojo.Message;
 import com.google.gson.Gson;
+import com.ygaps.travelapp.pojo.Tour;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +43,7 @@ public class CreateTourActivity extends AppCompatActivity {
     Button CreateTour_EndPointBtn;
     TextView CreateTour_StartPointDetail;
     TextView CreateTour_EndPointDetail;
+    TextView CreateTour_Title;
     EditText CreateTour_Adult;
     EditText CreateTour_Children;
     EditText CreateTour_MinCost;
@@ -48,17 +51,28 @@ public class CreateTourActivity extends AppCompatActivity {
     EditText CreateTour_Avatar;
     CheckBox CreateTour_isPrivate;
     Button CreateTour_SubmitBtn;
+    LinearLayout linearLayout;
     DatePickerDialog picker;
+    String action;
+    Integer tourId;
+    String token;
     private static final int MAP_ACTIVITY_REQUEST_CODE = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_tour);
 
+        Intent intent=getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            action=bundle.getString("action","CreateTour");
+            tourId=bundle.getInt("tourId",-1);
+        }
+
         //Builds HTTP Client for API Calls
         userService = MyAPIClient.buildHTTPClient().create(UserService.class);
         SetContent();
-
+        if(action.compareTo("EditTour")==0)ExtractTourInfo(tourId);
 
         CreateTour_StartDate.setInputType(InputType.TYPE_NULL);
         CreateTour_EndDate.setInputType(InputType.TYPE_NULL);
@@ -120,7 +134,7 @@ public class CreateTourActivity extends AppCompatActivity {
         CreateTour_SubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CreateTourRequest();
+                SubmitBtnClicked();
             }
         });
     }
@@ -140,8 +154,12 @@ public class CreateTourActivity extends AppCompatActivity {
         CreateTour_Avatar=findViewById(R.id.CreateTour_Avatar);
         CreateTour_isPrivate=findViewById(R.id.CreateTour_isPrivate);
         CreateTour_SubmitBtn=findViewById(R.id.CreateTour_ContinueBtn);
+        CreateTour_Title=findViewById(R.id.createTour_Title);
+        linearLayout=findViewById(R.id.CreateTour_pickPoint);
+        if(action.compareTo("EditTour")==0)linearLayout.setVisibility(View.GONE);
         sharedPreferences=getApplicationContext().getSharedPreferences(LoginActivity.PREF_NAME, MODE_PRIVATE);
         editor=sharedPreferences.edit();
+        token = sharedPreferences.getString("token","");
         editor.remove("startDate");
         editor.remove("endDate");
         editor.remove("sourceLat");
@@ -155,8 +173,7 @@ public class CreateTourActivity extends AppCompatActivity {
         editor.remove("desAddress");
         editor.apply();
     }
-    private void CreateTourRequest(){
-        String token = sharedPreferences.getString("token","");
+    private void SubmitBtnClicked(){
         CreateTourObj createTourObj=new CreateTourObj();
 
         createTourObj.setName(CreateTour_Name.getText().toString());
@@ -177,14 +194,15 @@ public class CreateTourActivity extends AppCompatActivity {
         editor.putLong("endDate",EndDate.getTime());
         editor.apply();
 
-        createTourObj.setAdults(Integer.parseInt(CreateTour_Adult.getText().toString()));
-        createTourObj.setChilds(Integer.parseInt(CreateTour_Children.getText().toString()));
-        createTourObj.setMinCost(Integer.parseInt(CreateTour_MinCost.getText().toString()));
-        createTourObj.setMaxCost(Integer.parseInt(CreateTour_MaxCost.getText().toString()));
+        createTourObj.setAdults(parseInt(CreateTour_Adult.getText().toString()));
+        createTourObj.setChilds(parseInt(CreateTour_Children.getText().toString()));
+        createTourObj.setMinCost(parseInt(CreateTour_MinCost.getText().toString()));
+        createTourObj.setMaxCost(parseInt(CreateTour_MaxCost.getText().toString()));
         createTourObj.setIsPrivate(CreateTour_isPrivate.isChecked());
 
-        if(!sharedPreferences.getBoolean("sourceExisted",false) ||
-                !sharedPreferences.getBoolean("desExisted",false)){
+        if((!sharedPreferences.getBoolean("sourceExisted",false) ||
+                !sharedPreferences.getBoolean("desExisted",false))
+        && action.compareTo("CreateTour")==0){
             Toast.makeText(this,
                     "Please choose a Start point and a destination for your tour",
                     Toast.LENGTH_SHORT).show();
@@ -196,46 +214,8 @@ public class CreateTourActivity extends AppCompatActivity {
         createTourObj.setDesLat(sharedPreferences.getFloat("desLat",0));
         createTourObj.setDesLong(sharedPreferences.getFloat("desLong",0));
 
-        Call<CreateTourObj> call=userService.CreateTour(token,createTourObj);
-        call.enqueue(new Callback<CreateTourObj>() {
-            @Override
-            public void onResponse(Call<CreateTourObj> call, Response<CreateTourObj> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "Tour created!",
-                            Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(CreateTourActivity.this, MapsActivity.class);
-                    myIntent.putExtra("action","StopPoint");
-                    myIntent.putExtra("tourId",response.body().getId());
-                    myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(myIntent);
-                }
-                else{
-                    Gson gson = new Gson();
-                    CreateTourObj message=
-                            gson.fromJson(response.errorBody().charStream(), CreateTourObj.class);
-                    List<Message> error=message.getMessage();
-                    StringBuilder errorMsg = new StringBuilder();
-                    errorMsg.append("Errors:");
-                    errorMsg.append(System.getProperty("line.separator"));
-                    for(int i=0;i<error.size();i++){
-                        errorMsg.append(error.get(i).getMsg());
-                        errorMsg.append(System.getProperty("line.separator"));
-                    }
-                    Toast.makeText(CreateTourActivity.this,
-                            errorMsg.toString(),
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CreateTourObj> call, Throwable t) {
-                Toast.makeText(CreateTourActivity.this,
-                        t.getMessage(),
-                        Toast.LENGTH_SHORT).show();
-                t.printStackTrace();
-                call.cancel();
-            }
-        });
+        if(action.compareTo("CreateTour")==0)CreateTour(createTourObj);
+        else UpdateTour(createTourObj);
     }
 
     private void OpenMapActivity(String action){
@@ -278,4 +258,140 @@ public class CreateTourActivity extends AppCompatActivity {
         }
     }
 
+    private void ExtractTourInfo(int tourId){
+        Call<Tour> call=userService.getTourInfo(token,tourId);
+        call.enqueue(new Callback<Tour>() {
+            @Override
+            public void onResponse(Call<Tour> call, Response<Tour> response) {
+                if(response.isSuccessful()){
+                    Tour tour=response.body();
+                    CreateTour_Title.setText(tour.getName());
+                    CreateTour_Name.setText(tour.getName());
+                    CreateTour_Adult.setText(tour.getAdults().toString());
+                    CreateTour_Children.setText(tour.getChilds().toString());
+                    CreateTour_MinCost.setText(tour.getMinCost());
+                    CreateTour_MaxCost.setText(tour.getMaxCost());
+                    CreateTour_isPrivate.setChecked(tour.getIsPrivate());
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                    Calendar calendar=Calendar.getInstance();
+                    try{
+                        calendar.setTimeInMillis(Long.parseLong(tour.getStartDate()));
+                        CreateTour_StartDate.setText(format.format(calendar.getTime()));
+
+                        calendar.setTimeInMillis(Long.parseLong(tour.getEndDate()));
+                        CreateTour_EndDate.setText(format.format(calendar.getTime()));
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    Gson gson = new Gson();
+                    Message message=
+                            gson.fromJson(response.errorBody().charStream(), Message.class);
+                    Toast.makeText(CreateTourActivity.this, message.getMessage()
+                            , Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Tour> call, Throwable t) {
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+    }
+
+    private void UpdateTour(CreateTourObj createTourObj){
+        createTourObj.setId(tourId);
+        Call<CreateTourObj> call=userService.updateTour(token,createTourObj);
+        call.enqueue(new Callback<CreateTourObj>() {
+            @Override
+            public void onResponse(Call<CreateTourObj> call, Response<CreateTourObj> response) {
+                if(response.isSuccessful()){
+                    Intent intent=new Intent(CreateTourActivity.this,MapsActivity.class);
+                    intent.putExtra("action","EditTour");
+                    intent.putExtra("tourId",tourId);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                }
+                else {
+                    Gson gson = new Gson();
+                    CreateTourObj message=
+                            gson.fromJson(response.errorBody().charStream(), CreateTourObj.class);
+                    List<Message> error=message.getMessage();
+                    StringBuilder errorMsg = new StringBuilder();
+                    errorMsg.append("Errors:");
+                    errorMsg.append(System.getProperty("line.separator"));
+                    for(int i=0;i<error.size();i++){
+                        errorMsg.append(error.get(i).getMsg());
+                        errorMsg.append(System.getProperty("line.separator"));
+                    }
+                    Toast.makeText(CreateTourActivity.this,
+                            errorMsg.toString(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateTourObj> call, Throwable t) {
+                Toast.makeText(CreateTourActivity.this,
+                        t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+    }
+    private void CreateTour(CreateTourObj createTourObj){
+        Call<CreateTourObj> call=userService.CreateTour(token,createTourObj);
+        call.enqueue(new Callback<CreateTourObj>() {
+            @Override
+            public void onResponse(Call<CreateTourObj> call, Response<CreateTourObj> response) {
+                if(response.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Tour created!",
+                            Toast.LENGTH_SHORT).show();
+                    Intent myIntent = new Intent(CreateTourActivity.this, MapsActivity.class);
+                    myIntent.putExtra("action","StopPoint");
+                    myIntent.putExtra("tourId",response.body().getId());
+                    myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(myIntent);
+                }
+                else{
+                    Gson gson = new Gson();
+                    CreateTourObj message=
+                            gson.fromJson(response.errorBody().charStream(), CreateTourObj.class);
+                    List<Message> error=message.getMessage();
+                    StringBuilder errorMsg = new StringBuilder();
+                    errorMsg.append("Errors:");
+                    errorMsg.append(System.getProperty("line.separator"));
+                    for(int i=0;i<error.size();i++){
+                        errorMsg.append(error.get(i).getMsg());
+                        errorMsg.append(System.getProperty("line.separator"));
+                    }
+                    Toast.makeText(CreateTourActivity.this,
+                            errorMsg.toString(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateTourObj> call, Throwable t) {
+                Toast.makeText(CreateTourActivity.this,
+                        t.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+                call.cancel();
+            }
+        });
+    }
+    private Integer parseInt(String num){
+        Integer res;
+        try{
+            res=Integer.parseInt(num);
+        }
+        catch (Exception e){
+            res=1;
+        }
+        return res;
+    }
 }

@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -115,13 +116,17 @@ public class FrontPage extends AppCompatActivity {
         userService = MyAPIClient.buildHTTPClient().create(UserService.class);
         adapter = new ListTourAdapter(this, list);
         rvTours.setAdapter(adapter);
+        OpenListPage(1);
         adapter.notifyDataSetChanged();
+
         rvTours.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                searchLayout.clearFocus();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 Intent intent = new Intent(FrontPage.this, TourInfo.class);
                 intent.putExtra("tourId", adapter.getTourId(position));
-                startActivityForResult(intent,18);
+                startActivity(intent);
             }
         });
 
@@ -133,7 +138,7 @@ public class FrontPage extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s.toString());
+                adapter.Filter(s);
             }
 
             @Override
@@ -148,8 +153,6 @@ public class FrontPage extends AppCompatActivity {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
         mMenu=menu;
-        if(list.size()>=1)return true;
-        OpenListPage(1);
         return true;
     }
 
@@ -157,20 +160,35 @@ public class FrontPage extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.userLogOut:{
+                searchLayout.clearFocus();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 LogOut();
                 break;
             }
             case R.id.createTour:{
+                searchLayout.clearFocus();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 Intent intent=new Intent(FrontPage.this,CreateTourActivity.class);
-                startActivityForResult(intent,17);
+                intent.putExtra("action","CreateTour");
+                startActivity(intent);
                 break;
             }
             case R.id.search_btn:{
-                if(searchLayout.getVisibility()==View.GONE)searchLayout.setVisibility(View.VISIBLE);
-                else searchLayout.setVisibility(View.GONE);
+                if(searchLayout.getVisibility()==View.GONE){
+                    searchLayout.setVisibility(View.VISIBLE);
+                    if(searchLayout.requestFocus())
+                        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                }
+                else {
+                    searchLayout.clearFocus();
+                    getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    searchLayout.setVisibility(View.GONE);
+                }
                 break;
             }
             case R.id.viewStopPoint:{
+                searchLayout.clearFocus();
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
                 Intent intent=new Intent(FrontPage.this,MapsActivity.class);
                 intent.putExtra("action","ViewStopPoint");
                 startActivityForResult(intent,16);
@@ -194,14 +212,12 @@ public class FrontPage extends AppCompatActivity {
         if(index<1)return;
         Call<ListTourResponse> call = userService.getListTour(token,5,index,
                 "startDate",true);
-        adapter.notifyDataSetChanged();
         call.enqueue(new Callback<ListTourResponse>() {
             @Override
             public void onResponse(Call<ListTourResponse> call, Response<ListTourResponse> response) {
                 if(response.isSuccessful()){
                     total=response.body().getTotal();
                     OpenAll(total);
-                    adapter.notifyDataSetChanged();
                 }else {
                     Gson gson = new Gson();
                     ListTourResponse message=
@@ -221,7 +237,6 @@ public class FrontPage extends AppCompatActivity {
     void OpenAll(Integer amount){
         Call<ListTourResponse> call = userService.getListTour(token,amount,1,
                 "startDate",true);
-        adapter.notifyDataSetChanged();
         call.enqueue(new Callback<ListTourResponse>() {
             @Override
             public void onResponse(Call<ListTourResponse> call, Response<ListTourResponse> response) {
@@ -231,7 +246,7 @@ public class FrontPage extends AppCompatActivity {
                     list.clear();
                     list.addAll(tempList);
                     adapter.notifyDataSetChanged();
-                    rvTours.setSelectionAfterHeaderView();
+                    adapter.addItems(tempList);
                     bar.setVisibility(View.GONE);
                 }else {
                     Gson gson = new Gson();

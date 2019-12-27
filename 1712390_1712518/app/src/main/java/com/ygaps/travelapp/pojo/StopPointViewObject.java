@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 public class StopPointViewObject {
 
     @SerializedName("id")
-    private Integer id;
+    private Integer id=null;
     @SerializedName("serviceId")
     private Integer serviceId;
     @SerializedName("name")

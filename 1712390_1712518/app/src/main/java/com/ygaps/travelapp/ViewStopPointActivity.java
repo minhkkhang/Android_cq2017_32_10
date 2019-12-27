@@ -46,6 +46,7 @@ public class ViewStopPointActivity extends AppCompatActivity {
     private Integer Id;
     private UserService userService;
     TextView nameTxt,addressTxt,minCostTxt,maxCostTxt,contactTxt,ratingTxt,serviceTypeTxt;
+    TextView viewDateTxt;
     EditText startDate,endDate,review;
     LinearLayout editTourLayout;
     Button addBtn,removeBtn,reviewBtn;
@@ -99,14 +100,19 @@ public class ViewStopPointActivity extends AppCompatActivity {
         reviewBtn=findViewById(R.id.stoppoint_reviewBtn);
         reviewListView=findViewById(R.id.stoppoint_reviews);
         avatar=findViewById(R.id.stoppoint_avatar);
+        viewDateTxt=findViewById(R.id.stoppoint_viewDate);
         sharedPreferences=getApplicationContext().getSharedPreferences(LoginActivity.PREF_NAME, MODE_PRIVATE);
         if(action.compareTo("view")==0 || action.compareTo("stoppoint")==0)editTourLayout.setVisibility(View.GONE);
         else{
-            if(status.compareTo("included")==0)addBtn.setText("Update");
+            if(status.compareTo("included")==0)addBtn.setText(getString(R.string.update));
             else {
                 removeBtn.setVisibility(View.GONE);
                 statusTxt.setVisibility(View.GONE);
             }
+        }
+        if(action.compareTo("view")==0){
+            viewDateTxt.setVisibility(View.VISIBLE);
+            viewDateTxt.setText(date);
         }
         ratingBar.setStepSize((float)1);
 
@@ -352,6 +358,20 @@ public class ViewStopPointActivity extends AppCompatActivity {
             builder.append(obj.getContact());
         }
         contactTxt.setText(builder.toString());
+
+        builder=new StringBuilder();
+        builder.append("Mincost: ");
+        if(obj.getMinCost()!=null){
+            builder.append(obj.getMinCost());
+        }
+        minCostTxt.setText(builder.toString());
+
+        builder=new StringBuilder();
+        builder.append("Maxcost: ");
+        if(obj.getMinCost()!=null){
+            builder.append(obj.getMaxCost());
+        }
+        maxCostTxt.setText(builder.toString());
     }
     private void GetReviewList(){
         String token = sharedPreferences.getString("token","");

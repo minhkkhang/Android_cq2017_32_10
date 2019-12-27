@@ -79,7 +79,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:id="@+id/stoppoint_edit_MinCost"
-                    android:text="@string/num_example"
                     android:gravity="end"
                     android:textAlignment="textEnd"
                     android:hint="@string/amount"/>
@@ -99,7 +98,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:id="@+id/stoppoint_edit_MaxCost"
-                    android:text="@string/num_example"
                     android:gravity="end"
                     android:textAlignment="textEnd"
                     android:hint="@string/amount"/>
