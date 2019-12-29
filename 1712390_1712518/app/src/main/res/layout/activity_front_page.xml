@@ -6,10 +6,10 @@
     <ListView
         android:id="@+id/rv_items"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:footerDividersEnabled="true"
         android:headerDividersEnabled="true"
-        android:dividerHeight="25dp"
+        android:dividerHeight="20dp"
         android:divider="#0f2557"
         android:background="#0f2557"
         android:paddingLeft="15dp"

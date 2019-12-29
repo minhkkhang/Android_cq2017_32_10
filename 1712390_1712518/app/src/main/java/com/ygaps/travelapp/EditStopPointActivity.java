@@ -27,7 +27,7 @@ public class EditStopPointActivity extends AppCompatActivity {
     DatePickerDialog picker;
     Intent intent;
     SimpleDateFormat df;
-    int index;
+    int index=-1;
     Double lat,_long;
     Menu mMenu;
 
@@ -40,6 +40,7 @@ public class EditStopPointActivity extends AppCompatActivity {
         intent=getIntent();
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
+            index=bundle.getInt("index",-2);
             nameTxt.setText(bundle.getString("name",""));
             addressTxt.setText(bundle.getString("address",""));
             Integer mincost=bundle.getInt("minCost",-1);
@@ -79,7 +80,10 @@ public class EditStopPointActivity extends AppCompatActivity {
                     break;
                 }
             }
-            index=bundle.getInt("index",-1);
+            if(index==-2){
+                startDate.setVisibility(View.GONE);
+                endDate.setVisibility(View.GONE);
+            }
             lat=bundle.getDouble("lat",0);
             _long=bundle.getDouble("long",0);
         }
@@ -91,6 +95,8 @@ public class EditStopPointActivity extends AppCompatActivity {
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.stop_point_menu,menu);
         mMenu=menu;
+        invalidateOptionsMenu();
+        if(index==-2)mMenu.findItem(R.id.stop_point_edit).setVisible(false);
         return true;
     }
 
@@ -164,10 +170,10 @@ public class EditStopPointActivity extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(nameTxt.getText().toString().compareTo("")==0 ||
+                if((nameTxt.getText().toString().compareTo("")==0 ||
                 addressTxt.getText().toString().compareTo("")==0 ||
                 startDate.getText().toString().compareTo("")==0 ||
-                endDate.getText().toString().compareTo("")==0)return;
+                endDate.getText().toString().compareTo("")==0) && index!=-2)return;
 
                 long startdate=0,enddate=0;
                 try {
@@ -176,6 +182,8 @@ public class EditStopPointActivity extends AppCompatActivity {
                     d=df.parse(endDate.getText().toString());
                     enddate=d.getTime();
                 } catch (ParseException e) {
+                    startdate=0;
+                    enddate=0;
                     e.printStackTrace();
                 }
 
@@ -195,9 +203,11 @@ public class EditStopPointActivity extends AppCompatActivity {
                 intent.putExtra("minCost",minCost);
                 intent.putExtra("maxCost",maxCost);
                 intent.putExtra("address",addressTxt.getText().toString());
-                intent.putExtra("province",1);
-                intent.putExtra("lat",lat);
-                intent.putExtra("long",_long);
+                if(index>-2){
+                    intent.putExtra("province",1);
+                    intent.putExtra("lat",lat);
+                    intent.putExtra("long",_long);
+                }
                 intent.putExtra("index",index);
                 int servicetype=4;
                 switch (serviceType.getCheckedRadioButtonId()){

@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +29,7 @@ public class ListTourAdapter extends BaseAdapter {
     public ListTourAdapter(Context aContext,  ArrayList<Tour> listData) {
         this.context = aContext;
         this.listData = listData;
-        this.originData=new ArrayList<>();
-        originData.addAll(listData);
+        this.originData=listData;
         layoutInflater = LayoutInflater.from(aContext);
     }
     public int getTourId(int position){
@@ -62,6 +62,12 @@ public class ListTourAdapter extends BaseAdapter {
             holder.tourCostView = (TextView) convertView.findViewById(R.id.tour_Cost);
             holder.tourAdultView = (TextView) convertView.findViewById(R.id.tour_adult);
             holder.tourChildrenView = (TextView) convertView.findViewById(R.id.tour_children);
+            holder.tourStatusView=convertView.findViewById(R.id.tour_status);
+            holder.tourHostAvatar=convertView.findViewById(R.id.tour_host_avatar);
+            holder.tourHostName=convertView.findViewById(R.id.tour_host_name);
+            holder.tourHostId=convertView.findViewById(R.id.tour_host_ID);
+            holder.tourHostDetail=convertView.findViewById(R.id.tour_host_detail);
+            holder.tourHostLayout=convertView.findViewById(R.id.tour_hostLayout);
             convertView.setTag(holder);
         } else {
             holder = (ListTourAdapter.ViewHolder) convertView.getTag();
@@ -69,12 +75,9 @@ public class ListTourAdapter extends BaseAdapter {
 
         Tour tour = this.listData.get(position);
         holder.tourNameView.setText(tour.getName());
-        if(holder.tourNameView.getText().toString().compareTo("")==0){
-            holder.tourNameView.setText("EMPTY_NAME");
-        }
 
         StringBuilder builder = new StringBuilder();
-        builder.append("ID:");
+        builder.append("ID: ");
         builder.append(tour.getId().toString());
         holder.tourIDView.setText(builder.toString());
 
@@ -127,6 +130,70 @@ public class ListTourAdapter extends BaseAdapter {
             holder.tourAvatarView.setImageResource(R.drawable.wallpaper);
         }
 
+        switch (tour.getStatus()){
+            case 0:{
+                holder.tourStatusView.setText("Status: Open");
+                break;
+            }
+            case 1:{
+                holder.tourStatusView.setText("Status: Started");
+                break;
+            }
+            case 2:{
+                holder.tourStatusView.setText("Status: Closed");
+                break;
+            }
+            default:{
+                holder.tourStatusView.setVisibility(View.GONE);
+                break;}
+        }
+
+        if(tour.getHostId()!=null && tour.getIsHost()==null){
+            holder.tourHostLayout.setVisibility(View.VISIBLE);
+            holder.tourHostName.setText(tour.getHostName());
+
+            builder = new StringBuilder();
+            builder.append("ID:");
+            builder.append(tour.getHostId().toString());
+            holder.tourHostId.setText(builder.toString());
+
+            builder=new StringBuilder();
+            if(tour.getHostEmail()!=null){
+                builder.append("Email: ");
+                builder.append(tour.getHostEmail().toString());
+                builder.append(System.getProperty("line.separator"));
+            }
+            if(tour.getHostPhone()!=null){
+                builder.append("Phone number: ");
+                builder.append(tour.getHostPhone().toString());
+                builder.append(System.getProperty("line.separator"));
+            }
+
+            calendar=Calendar.getInstance();
+            try{
+                calendar.setTimeInMillis(Long.parseLong(tour.getCreatedOn()));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            builder.append("Created on: ");
+            builder.append(format.format(calendar.getTime()));
+            holder.tourHostDetail.setText(builder.toString());
+            if(tour.getHostAvatar()!=null){
+                if(!tour.getHostAvatar().isEmpty()){
+                    Picasso.with(this.context).load(tour.getHostAvatar())
+                            .centerCrop()
+                            .fit()
+                            .into(holder.tourHostAvatar);
+                }
+                else{
+                    holder.tourHostAvatar.setImageResource(R.drawable.man);
+                }
+            }else{
+                holder.tourHostAvatar.setImageResource(R.drawable.man);
+            }
+        }
+        else holder.tourHostLayout.setVisibility(View.GONE);
+
         return convertView;
     }
     public void Filter(CharSequence constraint){
@@ -155,9 +222,18 @@ public class ListTourAdapter extends BaseAdapter {
         TextView tourCostView;
         TextView tourAdultView;
         TextView tourChildrenView;
+        TextView tourStatusView;
+
+        LinearLayout tourHostLayout;
+        TextView tourHostName;
+        ImageView tourHostAvatar;
+        TextView tourHostDetail;
+        TextView tourHostId;
     }
     public void addItems(List<Tour> tours){
         originData.clear();
         originData.addAll(tours);
+        listData=originData;
+        notifyDataSetChanged();
     }
 }

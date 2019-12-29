@@ -3,8 +3,8 @@ package com.ygaps.travelapp;
 import com.ygaps.travelapp.pojo.AddStopPointRequest;
 import com.ygaps.travelapp.pojo.CreateTourObj;
 import com.ygaps.travelapp.pojo.FireBaseTokenRequest;
+import com.ygaps.travelapp.pojo.ListResponse;
 import com.ygaps.travelapp.pojo.ListReviewRequest;
-import com.ygaps.travelapp.pojo.ListTourResponse;
 import com.ygaps.travelapp.pojo.LoginRequest;
 import com.ygaps.travelapp.pojo.LoginResponse;
 import com.ygaps.travelapp.pojo.Message;
@@ -15,6 +15,9 @@ import com.ygaps.travelapp.pojo.StopPointListRequest;
 import com.ygaps.travelapp.pojo.StopPointListResponse;
 import com.ygaps.travelapp.pojo.StopPointViewObject;
 import com.ygaps.travelapp.pojo.Tour;
+import com.ygaps.travelapp.pojo.UserInfoObj;
+
+import org.w3c.dom.ls.LSException;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -29,11 +32,11 @@ public interface UserService {
     @POST("user/register")
     Call<SignUpResponse> signup(@Body SignUpRequest signUpRequest);
     @GET("tour/list")
-    Call<ListTourResponse> getListTour(@Header("Authorization") String token,
-                                       @Query("rowPerPage") Integer row,
-                                       @Query("pageNum") Integer pageNum,
-                                       @Query("orderBy")String ord,
-                                       @Query("isDesc")Boolean isDesc);
+    Call<ListResponse> getListTour(@Header("Authorization") String token,
+                                   @Query("rowPerPage") Integer row,
+                                   @Query("pageNum") Integer pageNum,
+                                   @Query("orderBy")String ord,
+                                   @Query("isDesc")Boolean isDesc);
     @POST("tour/create")
     Call<CreateTourObj> CreateTour(@Header("Authorization") String token,
                                    @Body CreateTourObj createTourObj);
@@ -67,6 +70,10 @@ public interface UserService {
     @POST("tour/add/member")
     Call<Message> inviteMember(@Header("Authorization")String token,
                                @Body ReviewRequest request);
+    @GET("tour/get/invitation")
+    Call<ListResponse> getInvitations(@Header("Authorization")String token,
+                                      @Query("pageIndex")Integer page,
+                                      @Query("pageSize")Integer pageSize);
     @GET("tour/get/feedback-service")
     Call<ListReviewRequest> getServiceReviews(@Header("Authorization")String token,
                                               @Query("serviceId") Integer id,
@@ -86,4 +93,35 @@ public interface UserService {
     @POST("tour/update-tour")
     Call<CreateTourObj> updateTour(@Header("Authorization")String token,
                           @Body CreateTourObj tour);
+    @POST("tour/notification")
+    Call<Message> sendTourNotification(@Header("Authorization")String token,
+                                  @Body ReviewRequest request);
+    @GET("user/search")
+    Call<ListResponse> searchUser(@Header("Authorization")String token,
+                                  @Query("searchKey") String key,
+                                  @Query("pageIndex")Integer page,
+                                  @Query("pageSize")Integer pageSize);
+    @POST("tour/response/invitation")
+    Call<Message> responseInvitation(@Header("Authorization")String token,
+                                     @Body ReviewRequest request);
+
+    @POST("user/notification/remove-token")
+    Call<Message> removeFireBaseToken(@Header("Authorization")String token,
+                                      @Body FireBaseTokenRequest request);
+    @GET("tour/history-user")
+    Call<ListResponse> getHistoryTours(@Header("Authorization")String token,
+                                       @Query("pageIndex")Integer page,
+                                       @Query("pageSize")Integer pageSize);
+    @GET("user/info")
+    Call<UserInfoObj> getUserInfo(@Header("Authorization")String token);
+
+    @POST("user/edit-info")
+    Call<Message> editUserInfo(@Header("Authorization")String token,
+                               @Body UserInfoObj user);
+    @POST("user/update-password")
+    Call<Message> editUserPassword(@Header("Authorization")String token,
+                                   @Body UserInfoObj user);
+    @POST("user/update-avatar")
+    Call<Message> editUserAvatar(@Header("Authorization")String token,
+                                 @Body UserInfoObj user);
 }

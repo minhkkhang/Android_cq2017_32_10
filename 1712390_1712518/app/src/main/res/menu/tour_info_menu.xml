@@ -3,17 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/view"
         android:title="@string/view_tour"/>
-    <item android:id="@+id/members"
-        android:title="@string/member_list"/>
-    <item android:id="@+id/invite"
-        android:title="@string/invite"/>
     <item android:id="@+id/edittour"
         android:title="@string/edit_tour"
         />
+    <item android:id="@+id/starttour"
+        android:title="@string/start_tour"/>
+    <item android:id="@+id/endtour"
+        android:title="@string/finish_tour"/>
+    <item android:id="@+id/invite"
+        android:title="@string/invite"/>
+
     <item android:id="@+id/clonetour"
         android:title="@string/clone_tour"/>
     <item android:id="@+id/tourmenu_done"
         android:title="@string/back"
+        android:icon="@drawable/import_exit_icon"
         app:showAsAction="always"/>
+    <item android:id="@+id/deletetour"
+        android:title="@string/delete_tour"
+        />
 
 </menu>

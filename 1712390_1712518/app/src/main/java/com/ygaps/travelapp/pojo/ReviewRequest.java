@@ -16,12 +16,16 @@ public class ReviewRequest {
     private String feedback;
     @SerializedName("comment")
     private String comment;
+    @SerializedName("noti")
+    private String noti;
     @SerializedName("userId")
     private Integer userId;
     @SerializedName("invitedUserId")
     private Integer invitedUserId;
     @SerializedName("isInvited")
     private Boolean isInvited;
+    @SerializedName("isAccepted")
+    private Boolean isAccepted;
 
 
     public Integer getServiceId() {
@@ -64,6 +68,14 @@ public class ReviewRequest {
         this.comment = comment;
     }
 
+    public String getNoti() {
+        return noti;
+    }
+
+    public void setNoti(String noti) {
+        this.noti = noti;
+    }
+
     public String getFeedback() {
         return feedback;
     }
@@ -94,5 +106,13 @@ public class ReviewRequest {
 
     public void setIsInvited(Boolean isInvited) {
         this.isInvited = isInvited;
+    }
+
+    public Boolean getIsAccepted() {
+        return isAccepted;
+    }
+
+    public void setIsAccepted(Boolean isAccepted) {
+        this.isAccepted = isAccepted;
     }
 }

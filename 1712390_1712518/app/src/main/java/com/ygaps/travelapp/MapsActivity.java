@@ -15,6 +15,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.ygaps.travelapp.pojo.AddStopPointRequest;
 import com.ygaps.travelapp.pojo.CoordList;
 import com.ygaps.travelapp.pojo.CoordinateSet;
+import com.ygaps.travelapp.pojo.CreateTourObj;
 import com.ygaps.travelapp.pojo.Message;
 import com.ygaps.travelapp.pojo.StopPointListRequest;
 import com.ygaps.travelapp.pojo.StopPointListResponse;
@@ -236,10 +238,15 @@ public class MapsActivity extends AppCompatActivity
                     }
                 if(SuggestedStopPoints.contains(marker) || TourStopPoints.contains(marker)){
                     if(actionType.compareTo("StopPoint")==0 || actionType.compareTo("EditTour")==0){
-                        if(TourStopPoints.contains(marker))ViewClickedStopPoint((int)marker.getTag(),
-                                "included","edit",marker.getTitle());
-                        else ViewClickedStopPoint((int)marker.getTag(),
-                                "not included","edit","");
+                        if(TourStopPoints.contains(marker)){
+                            String mAction=TourStopPointsId.contains((int)marker.getTag())?"edits":"edit";
+                            ViewClickedStopPoint((int)marker.getTag(),
+                                    "included",mAction,marker.getTitle());
+                        }
+                        else {
+                            ViewClickedStopPoint((int)marker.getTag(),
+                                    "not included","edit","");
+                        }
                     }
                     if(actionType.compareTo("View")==0)ViewClickedStopPoint((int)marker.getTag(),
                             "","view",marker.getTitle());
@@ -365,11 +372,21 @@ public class MapsActivity extends AppCompatActivity
     private void RequestStopPointList(){
         ArrayList<CoordinateSet>coordinateSets=new ArrayList<>();
         CoordinateSet source=new CoordinateSet();
-        source.setLat((float)bounds.southwest.latitude);
-        source.setLong((float)bounds.southwest.longitude);
+        float temp;
+        temp=bounds.southwest.latitude>0?(float)(bounds.southwest.latitude*0.85):
+                (float)(bounds.southwest.latitude*1.15);
+        source.setLat(temp);
+        temp=bounds.southwest.longitude>0?(float)(bounds.southwest.longitude*0.85):
+                (float)(bounds.southwest.longitude*1.15);
+        source.setLong(temp);
+
         CoordinateSet des=new CoordinateSet();
-        des.setLat((float)bounds.northeast.latitude);
-        des.setLong((float)bounds.northeast.longitude);
+        temp=bounds.northeast.latitude<0?(float)(bounds.northeast.latitude*0.85):
+                (float)(bounds.northeast.latitude*1.15);
+        des.setLat(temp);
+        temp=bounds.northeast.longitude<0?(float)(bounds.northeast.longitude*0.85):
+                (float)(bounds.northeast.longitude*1.15);
+        des.setLong(temp);
         coordinateSets.add(source);
         coordinateSets.add(des);
 
@@ -397,10 +414,7 @@ public class MapsActivity extends AppCompatActivity
                     SetStopPoints(filteredList);
                 }
                 else{
-                    Gson gson = new Gson();
-                    Message message=
-                            gson.fromJson(response.errorBody().charStream(), Message.class);
-                    Toast.makeText(MapsActivity.this, message.getMessage()
+                    Toast.makeText(MapsActivity.this, "Error!"
                             , Toast.LENGTH_SHORT).show();
                 }
             }
@@ -575,6 +589,18 @@ public class MapsActivity extends AppCompatActivity
         intent.putExtra("Id",id);
         intent.putExtra("action",action);
         intent.putExtra("date",date);
+        if(action.compareTo("edits")==0){
+            for(int i=0;i<AllStopPoints.size();i++)
+                if(AllStopPoints.get(i).getServiceId()==id
+                && AllStopPoints.get(i).getId()!=null){
+                    intent.putExtra("tour_related_id",AllStopPoints.get(i).getId());
+                    intent.putExtra("latitude",Double.parseDouble(AllStopPoints.get(i).getLat()));
+                    intent.putExtra("longitude",Double.parseDouble(AllStopPoints.get(i).getLong()));
+                    intent.putExtra("startDate",Long.parseLong(AllStopPoints.get(i).getArrivalAt()));
+                    intent.putExtra("endDate",Long.parseLong(AllStopPoints.get(i).getLeaveAt()));
+                }
+            intent.putExtra("tourId",tourId);
+        }
         startActivityForResult(intent, STOP_POINT_ACTIVITY_REQUEST_CODE);
     }
     private void EditOrAddNewStopPoint(StopPointObj obj,String action,int index){
@@ -606,7 +632,6 @@ public class MapsActivity extends AppCompatActivity
 
         SearchedPoint=mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(p));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(8));
     }
 
     private void SetHintAutoComplete(){
@@ -865,19 +890,22 @@ public class MapsActivity extends AppCompatActivity
                     startActivity(myIntent);
                     return;
                 }else{
-                    Gson gson = new Gson();
-                    Message message=
-                            gson.fromJson(response.errorBody().charStream(), Message.class);
-                    Toast.makeText(MapsActivity.this, message.getMessage()
-                            , Toast.LENGTH_SHORT).show();
+                    Log.d("Error",response.errorBody().toString());
+                    Intent myIntent;
+                    myIntent = new Intent(MapsActivity.this, TourInfo.class);
+                    myIntent.putExtra("tourId",tourId);
+                    myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(myIntent);
                 }
             }
 
             @Override
             public void onFailure(Call<Message> call, Throwable t) {
-                Toast.makeText(MapsActivity.this,
-                        t.getMessage(),
-                        Toast.LENGTH_SHORT).show();
+                Intent myIntent;
+                myIntent = new Intent(MapsActivity.this, TourInfo.class);
+                myIntent.putExtra("tourId",tourId);
+                myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(myIntent);
                 t.printStackTrace();
                 call.cancel();
             }

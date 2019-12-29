@@ -107,18 +107,59 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="4.5"
-                    android:id="@+id/tourinfo_children"/>
+                    android:id="@+id/tourinfo_children"
+                    />
             </LinearLayout>
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/tourinfo_isPrivate"
-                android:textColor="#f00"
-                android:padding="5dp"/>
+                android:weightSum="10"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tourinfo_isPrivate"
+                    android:textColor="#f00"
+                    android:layout_weight="4.5"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4.5"
+                    android:id="@+id/tourinfo_status"
+                    android:textAlignment="textEnd"
+                    android:gravity="end"
+                    android:textColor="#f00"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tourinfo_showMembers"
+                    android:text="@string/member_list"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tourinfo_members"
+                    android:background="#0f2557"
+                    android:divider="#0f2557"
+                    android:dividerHeight="1dp"
+                    android:scrollbars="none"
+                    android:visibility="gone"/>
+            </LinearLayout>
             <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="#0f2557"/>
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:background="#0f2557"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -152,6 +193,21 @@
                     android:text="@string/review"/>
             </LinearLayout>
         </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tourinfo_showReviews"
+                android:layout_marginBottom="5dp"
+                android:text="@string/show_review"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tourinfo_reviews"
+                android:background="#0f2557"
+                android:divider="#0f2557"
+                android:dividerHeight="1dp"
+                android:scrollbars="none"
+                android:visibility="gone"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="10dp"
@@ -181,15 +237,21 @@
                     android:text="@string/comment"/>
             </LinearLayout>
         </LinearLayout>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tourinfo_showComments"
+                android:layout_marginBottom="5dp"
+                android:text="@string/show_comment"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/tourinfo_comments"
                 android:background="#0f2557"
                 android:divider="#0f2557"
-                android:dividerHeight="2dp"
-                android:paddingTop="10dp"
-                android:scrollbars="none"/>
+                android:dividerHeight="1dp"
+                android:scrollbars="none"
+                android:visibility="gone"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
@@ -23,8 +24,15 @@ import com.ygaps.travelapp.LoginActivity;
 import com.ygaps.travelapp.MyAPIClient;
 import com.ygaps.travelapp.R;
 import com.ygaps.travelapp.UserService;
+import com.ygaps.travelapp.ViewInvitationActivity;
 import com.ygaps.travelapp.pojo.FireBaseTokenRequest;
 import com.ygaps.travelapp.pojo.Message;
+import com.ygaps.travelapp.pojo.Tour;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,20 +40,41 @@ import retrofit2.Response;
 
 public class MyFirebaseService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseService";
-
+    private boolean isInvitation=false;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        isInvitation= !remoteMessage.getData().isEmpty();
         // handle a notification payload.
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-
             sendNotification(remoteMessage.getNotification().getBody());
+        }
+        else {
+            if(isInvitation){
+                StringBuilder builder=new StringBuilder();
+                Map<String,String> data = remoteMessage.getData();
+                builder.append("You has been invited to tour ");
+                try{
+                    builder.append(data.get("name").toString().toUpperCase());
+                }
+                catch (Exception e){Log.d(TAG,"Null tour name");}
+                builder.append(System.getProperty("line.separator"));
+
+
+                sendNotification(builder.toString());
+                Log.d(TAG, builder.toString());
+            }
         }
     }
 
     @Override
     public void onNewToken(String token) {
         Log.d(TAG, "Refreshed token: " + token);
+        sendRegistrationToServer(token);
+    }
+
+    private void sendRegistrationToServer(String token) {
+        // TODO: Implement this method to send token to your app server.
         String firebaseToken = token;
         String deviceId = Settings.Secure.getString(getApplicationContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -65,40 +94,31 @@ public class MyFirebaseService extends FirebaseMessagingService {
         SharedPreferences.Editor edit=getSharedPreferences(LoginActivity.PREF_NAME, MODE_PRIVATE).edit();
         edit.putString("firebaseToken",firebaseToken);
         edit.apply();
-        sendRegistrationToServer(token);
-    }
-
-    private void sendRegistrationToServer(String token) {
-        // TODO: Implement this method to send token to your app server.
     }
 
     private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, FrontPage.class);
+        Intent intent;
+        if(isInvitation)intent = new Intent(this, ViewInvitationActivity.class);
+        else intent = new Intent(this, FrontPage.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = getString(R.string.project_id);
+        String title="Notification";
+        if(isInvitation)title="Tour invitation";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
                         .setSmallIcon(R.drawable.ic_launcher_background)
                         .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background))
-                        .setContentTitle(getString(R.string.project_id))
+                        .setContentTitle(title)
                         .setContentText(messageBody)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent)
                         .setDefaults(Notification.DEFAULT_ALL)
-                        .setPriority(NotificationManager.IMPORTANCE_HIGH)
-                        .addAction(new NotificationCompat.Action(
-                                android.R.drawable.sym_call_missed,
-                                "Cancel",
-                                PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)))
-                        .addAction(new NotificationCompat.Action(
-                                android.R.drawable.sym_call_outgoing,
-                                "OK",
-                                PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT)));
+                        .setPriority(NotificationManager.IMPORTANCE_HIGH);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

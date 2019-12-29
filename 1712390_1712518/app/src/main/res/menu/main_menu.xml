@@ -6,14 +6,26 @@
         android:icon="@drawable/search"
         android:title=""
         app:showAsAction="always"/>
+    <item android:id="@+id/main_done"
+        android:title="@string/front_page"
+        android:icon="@drawable/import_home_icon"
+        app:showAsAction="always"/>
     <item android:id="@+id/createTour"
         android:title="@string/create_tour"/>
     <item android:id="@+id/userProfile"
         android:title="@string/profile"
-        android:icon="@mipmap/ic_launcher"/>
+        android:icon="@drawable/import_person_icon"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/viewInvites"
+        android:title="@string/view_invites"/>
     <item android:id="@+id/viewStopPoint"
         android:title="@string/view_stop_point"/>
+    <item
+        android:id="@+id/viewUsers"
+        android:title="@string/view_users"/>
+    <item android:id="@+id/viewHistory"
+        android:title="@string/history"/>
     <item android:id="@+id/userLogOut"
         android:title="@string/logout"/>
-
 </menu>

@@ -10,7 +10,7 @@
     <string name="picK_leave_date">Pick leaving date</string>
     <string name="pick_source">Pick source point</string>
     <string name="pick_destination">Pick destination</string>
-    <string name="adult">Adults</string>
+    <string name="adult">Adults: </string>
     <string name="children">Children: </string>
     <string name="min_cost">MinCost: </string>
     <string name="max_cost">MaxCost: </string>
@@ -61,10 +61,27 @@
     <string name="delete_tour">Delete Tour</string>
     <string name="comment">Comment</string>
     <string name="view_tour">View on map</string>
-    <string name="delete_service">Delete stop point</string>
+    <string name="edit_service">Edit stop point</string>
     <string name="public_tour">Public tour</string>
     <string name="clone_tour">Clone Tour</string>
     <string name="hide">Hide</string>
     <string name="show">Show</string>
     <string name="back">Back</string>
+    <string name="show_review">Show all reviews</string>
+    <string name="show_comment">Show all comments</string>
+    <string name="start_tour">Start tour</string>
+    <string name="finish_tour">Finish tour</string>
+    <string name="host">TOUR HOST</string>
+    <string name="member">MEMBER</string>
+    <string name="invited">Invited</string>
+    <string name="view_invites">View tour Invites</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="history">User History Tours</string>
+    <string name="front_page">Back to front page</string>
+    <string name="view">View</string>
+    <string name="view_users">View all users</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="pick_image">Pick Image</string>
 </resources>

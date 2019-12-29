@@ -31,10 +31,29 @@ public class Tour {
     private String message;
     @SerializedName("hostId")
     private String hostId;
+    @SerializedName("isHost")
+    private Boolean isHost;
+
+    @SerializedName("hostName")
+    private String hostName;
+    @SerializedName("hostPhone")
+    private String hostPhone;
+    @SerializedName("hostEmail")
+    private String hostEmail;
+    @SerializedName("hostAvatar")
+    private String hostAvatar;
+    @SerializedName("createdOn")
+    private String createdOn;
+    @SerializedName("type")
+    private String type;
+
+
     @SerializedName("stopPoints")
     private List<StopPointViewObject> stopPoints = null;
     @SerializedName("comments")
     private List<TourComment> comments = null;
+    @SerializedName("members")
+    private List<TourComment> members = null;
 
     public Integer getId() {
         return id;
@@ -155,4 +174,80 @@ public class Tour {
         this.comments = comments;
     }
 
+    public List<TourComment> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<TourComment> members) {
+        this.members = members;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getHostPhone() {
+        return hostPhone;
+    }
+
+    public void setHostPhone(String hostPhone) {
+        this.hostPhone = hostPhone;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type =type;
+    }
+
+    public String getHostEmail() {
+        return hostEmail;
+    }
+
+    public void setHostEmail(String hostEmail) {
+        this.hostEmail = hostEmail;
+    }
+
+    public String getHostAvatar() {
+        return hostAvatar;
+    }
+
+    public void setHostAvatar(String hostAvatar) {
+        this.hostAvatar = hostAvatar;
+    }
+
+    public String getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(String createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public Boolean getIsHost() {
+        return isHost;
+    }
+
+    public void setIsHost(Boolean isHost) {
+        this.isHost = isHost;
+    }
+
+    public void setTourInfo(Tour tour){
+        this.setId(tour.getId());
+        this.setName(tour.getName());
+        this.setAdults(tour.getAdults());
+        this.setChilds(tour.getChilds());
+        this.setMinCost(tour.getMinCost());
+        this.setMaxCost(tour.getMaxCost());
+        this.setIsPrivate(tour.getIsPrivate());
+        this.setStatus(tour.getStatus());
+        this.setStartDate(tour.getStartDate());
+        this.setEndDate(tour.getEndDate());
+    }
 }

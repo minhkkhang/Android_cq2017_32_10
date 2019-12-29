@@ -22,7 +22,12 @@ public class TourComment {
     private String avatar;
     @SerializedName("comment")
     private String comment;
-
+    @SerializedName("notification")
+    private String notification;
+    @SerializedName("isHost")
+    private Boolean isHost=false;
+    @SerializedName("userId")
+    private Integer userId;
     public String getReview() {
         return review;
     }
@@ -37,6 +42,14 @@ public class TourComment {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -95,4 +108,30 @@ public class TourComment {
         this.comment = comment;
     }
 
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
+    }
+
+    public Boolean getIsHost() {
+        return isHost;
+    }
+
+    public void setIsHost(Boolean isHost) {
+        this.isHost = isHost;
+    }
+
+    public void setInfoComment(TourComment tourComment){
+        this.setAvatar(tourComment.getAvatar());
+        this.setComment(tourComment.getComment());
+        this.setId(tourComment.getId());
+        this.setName(tourComment.getName());
+        this.setCreatedOn(tourComment.getCreatedOn());
+        this.setFeedback(tourComment.getFeedback());
+        this.setReview(tourComment.getReview());
+        this.setPoint(tourComment.getPoint());
+    }
 }

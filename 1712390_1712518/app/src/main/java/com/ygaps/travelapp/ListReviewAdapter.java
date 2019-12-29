@@ -1,5 +1,6 @@
 package com.ygaps.travelapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,7 @@ public class ListReviewAdapter extends RecyclerView.Adapter<ListReviewAdapter.My
         return vh;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         TourComment review=this.listData.get(position);
@@ -73,6 +75,10 @@ public class ListReviewAdapter extends RecyclerView.Adapter<ListReviewAdapter.My
         if(review.getFeedback()!=null)holder.reviewReview.setText(review.getFeedback());
         if(review.getComment()!=null)holder.reviewReview.setText(review.getComment());
         if(review.getReview()!=null)holder.reviewReview.setText(review.getReview());
+        if(review.getFeedback()==null && review.getComment()==null
+                && review.getReview()==null){
+            holder.reviewReview.setVisibility(View.GONE);
+        }
 
         StringBuilder builder=new StringBuilder();
         if(review.getPoint()!=null){
@@ -80,8 +86,24 @@ public class ListReviewAdapter extends RecyclerView.Adapter<ListReviewAdapter.My
             builder.append(review.getPoint().toString());
             holder.reviewRate.setText(builder.toString());
         }
+        else {
+            if(review.getComment()==null){
+                if(review.getIsHost()){
+                    holder.reviewRate.setText(R.string.host);
+                    holder.reviewRate.setTextColor(R.color.colorAccent);
+                }
+                else holder.reviewRate.setText(R.string.member);
+            }
+            else holder.reviewRate.setVisibility(View.GONE);
+        }
 
-        if(review.getCreatedOn()==null)return;
+        if(review.getCreatedOn()==null){
+            builder=new StringBuilder();
+            builder.append("Phone number: ");
+            builder.append(review.getPhone());
+            holder.reviewDate.setText(builder.toString());
+            return;
+        }
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy 'at' HH:mm z");
         Calendar calendar=Calendar.getInstance();
         try{

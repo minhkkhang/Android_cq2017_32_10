@@ -48,7 +48,6 @@ public class CreateTourActivity extends AppCompatActivity {
     EditText CreateTour_Children;
     EditText CreateTour_MinCost;
     EditText CreateTour_MaxCost;
-    EditText CreateTour_Avatar;
     CheckBox CreateTour_isPrivate;
     Button CreateTour_SubmitBtn;
     LinearLayout linearLayout;
@@ -151,7 +150,6 @@ public class CreateTourActivity extends AppCompatActivity {
         CreateTour_Children=findViewById(R.id.CreateTour_Children);
         CreateTour_MinCost=findViewById(R.id.CreateTour_MinCost);
         CreateTour_MaxCost=findViewById(R.id.CreateTour_MaxCost);
-        CreateTour_Avatar=findViewById(R.id.CreateTour_Avatar);
         CreateTour_isPrivate=findViewById(R.id.CreateTour_isPrivate);
         CreateTour_SubmitBtn=findViewById(R.id.CreateTour_ContinueBtn);
         CreateTour_Title=findViewById(R.id.createTour_Title);
@@ -208,11 +206,14 @@ public class CreateTourActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        createTourObj.setSourceLat(sharedPreferences.getFloat("sourceLat",0));
-        createTourObj.setSourceLong(sharedPreferences.getFloat("sourceLong",0));
+        if(action.compareTo("CreateTour")==0){
+            createTourObj.setSourceLat(sharedPreferences.getFloat("sourceLat",0));
+            createTourObj.setSourceLong(sharedPreferences.getFloat("sourceLong",0));
 
-        createTourObj.setDesLat(sharedPreferences.getFloat("desLat",0));
-        createTourObj.setDesLong(sharedPreferences.getFloat("desLong",0));
+            createTourObj.setDesLat(sharedPreferences.getFloat("desLat",0));
+            createTourObj.setDesLong(sharedPreferences.getFloat("desLong",0));
+            createTourObj.setStatus(0);
+        }
 
         if(action.compareTo("CreateTour")==0)CreateTour(createTourObj);
         else UpdateTour(createTourObj);

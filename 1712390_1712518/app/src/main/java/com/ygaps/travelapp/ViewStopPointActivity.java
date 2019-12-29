@@ -1,6 +1,7 @@
 package com.ygaps.travelapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,9 +25,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.ygaps.travelapp.pojo.AddStopPointRequest;
+import com.ygaps.travelapp.pojo.CreateTourObj;
 import com.ygaps.travelapp.pojo.ListReviewRequest;
 import com.ygaps.travelapp.pojo.Message;
 import com.ygaps.travelapp.pojo.ReviewRequest;
+import com.ygaps.travelapp.pojo.StopPointObj;
 import com.ygaps.travelapp.pojo.StopPointViewObject;
 import com.ygaps.travelapp.pojo.TourComment;
 import com.google.gson.Gson;
@@ -34,6 +38,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +48,7 @@ public class ViewStopPointActivity extends AppCompatActivity {
 
     private Intent intent;
     private String status,action;
-    private Integer Id;
+    private Integer Id,tour_related_id,tourId;
     private UserService userService;
     TextView nameTxt,addressTxt,minCostTxt,maxCostTxt,contactTxt,ratingTxt,serviceTypeTxt;
     TextView viewDateTxt;
@@ -61,24 +66,15 @@ public class ViewStopPointActivity extends AppCompatActivity {
     TextView statusTxt;
     String date;
     Menu mMenu;
+    StopPointViewObject mTour;
+    StopPointObj obj;
     private static int MAX_SIZE=50;
-
+    private static int STOP_POINT_EDIT_ACTIVITY_REQUEST_CODE=24;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_stop_point);
-        intent=getIntent();
-        Bundle bundle = intent.getExtras();
-        if (bundle != null) {
-            action = bundle.getString("action","view");
-            status = bundle.getString("status","");
-            Id=bundle.getInt("Id",-1);
-            date=bundle.getString("date","");
-        }
 
-        //Builds HTTP Client for API Calls
-        userService = MyAPIClient.buildHTTPClient().create(UserService.class);
-        SetContent();
     }
 
     private void SetContent(){
@@ -241,9 +237,34 @@ public class ViewStopPointActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        intent=getIntent();
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            action = bundle.getString("action","view");
+            if(action.compareTo("edits")==0){
+                obj=new StopPointObj();
+                tour_related_id=bundle.getInt("tour_related_id",0);
+                tourId=bundle.getInt("tourId",0);
+                obj.setArrivalAt(bundle.getLong("startDate",0));
+                obj.setLeaveAt(bundle.getLong("endDate",0));
+                obj.setLat(bundle.getDouble("latitude",1000));
+                obj.setLong(bundle.getDouble("longitude",1000));
+            }
+            status = bundle.getString("status","");
+            Id=bundle.getInt("Id",-1);
+            date=bundle.getString("date","");
+        }
+
+
         MenuInflater inflater=getMenuInflater();
         inflater.inflate(R.menu.stop_point_menu,menu);
         mMenu=menu;
+        invalidateOptionsMenu();
+        MenuItem item=mMenu.findItem(R.id.stop_point_edit);
+        if(action.compareTo("edits")!=0)item.setVisible(false);
+        //Builds HTTP Client for API Calls
+        userService = MyAPIClient.buildHTTPClient().create(UserService.class);
+        SetContent();
         return true;
     }
 
@@ -254,6 +275,19 @@ public class ViewStopPointActivity extends AppCompatActivity {
                 intent=new Intent();
                 setResult(RESULT_CANCELED,intent);
                 finish();
+                break;
+            }
+            case R.id.stop_point_edit:{
+                intent = new Intent(this, EditStopPointActivity.class);
+                intent.putExtra("name",mTour.getName());
+                intent.putExtra("action",action);
+                intent.putExtra("minCost",Integer.parseInt(mTour.getMinCost()));
+                intent.putExtra("maxCost",Integer.parseInt(mTour.getMaxCost()));
+                intent.putExtra("serviceType",mTour.getServiceTypeId());
+                intent.putExtra("address",mTour.getAddress());
+                intent.putExtra("index",-2);
+
+                startActivityForResult(intent, STOP_POINT_EDIT_ACTIVITY_REQUEST_CODE);
                 break;
             }
             default:break;
@@ -278,6 +312,7 @@ public class ViewStopPointActivity extends AppCompatActivity {
             public void onResponse(Call<StopPointViewObject> call, Response<StopPointViewObject> response) {
                 if(response.isSuccessful()){
                     ExtractStopPointInfo(response.body());
+                    mTour=response.body();
                 }
                 else{
                     Gson gson = new Gson();
@@ -381,7 +416,14 @@ public class ViewStopPointActivity extends AppCompatActivity {
             public void onResponse(Call<ListReviewRequest> call, Response<ListReviewRequest> response) {
                 if(response.isSuccessful()){
                     assert response.body() != null;
-                    reviews.addAll(response.body().getFeedbacks());
+                    List<TourComment> tempList=response.body().getFeedbacks();
+                    for(int i=0;i<tempList.size()/2;i++){
+                        TourComment temp=new TourComment();
+                        temp.setInfoComment(tempList.get(i));
+                        tempList.get(i).setInfoComment(tempList.get(tempList.size()-1-i));
+                        tempList.get(tempList.size()-1-i).setInfoComment(temp);
+                    }
+                    reviews.addAll(tempList);
                     adapter.notifyDataSetChanged();
                 }
                 else{
@@ -421,6 +463,63 @@ public class ViewStopPointActivity extends AppCompatActivity {
             default:{
                 avatar.setImageResource(R.drawable.wallpaper);
                 return;
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == STOP_POINT_EDIT_ACTIVITY_REQUEST_CODE){
+            if (resultCode == RESULT_OK){
+                Bundle bundle=data.getExtras();
+                if(bundle==null)return;
+                List<StopPointObj> objs=new ArrayList<>();
+                String token = sharedPreferences.getString("token","");
+                AddStopPointRequest request=new AddStopPointRequest();
+
+                obj.setId(tour_related_id);
+                obj.setServiceId(Id);
+                obj.setAddress(bundle.getString("address"));
+                obj.setName(bundle.getString("name"));
+                obj.setMinCost(bundle.getInt("minCost"));
+                obj.setMaxCost(bundle.getInt("maxCost"));
+                obj.setServiceTypeId(bundle.getInt("serviceType"));
+                if(obj.getLat()==1000 || obj.getLong()==1000 || obj.getArrivalAt()==0
+                || obj.getLeaveAt()==0){
+                    Toast.makeText(ViewStopPointActivity.this, "Failed to update stop point"
+                            , Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                objs.add(obj);
+                request.setTourId(tourId);
+                request.setStopPoints(objs);
+                request.setDeleteIds(null);
+                Call<Message>call=userService.addStopPointsToTour(token,request);
+
+                call.enqueue(new Callback<Message>() {
+                    @Override
+                    public void onResponse(Call<Message> call, Response<Message> response) {
+                        if(response.isSuccessful()){
+                            LoadStopPointInfo(Id);
+                        }
+                        else{
+                            Toast.makeText(ViewStopPointActivity.this, "Failed to update stop point"
+                                    , Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Message> call, Throwable t) {
+                        Toast.makeText(ViewStopPointActivity.this,
+                                t.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                        t.printStackTrace();
+                        call.cancel();
+                    }
+                });
+
             }
         }
     }
